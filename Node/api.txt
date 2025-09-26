@@ -1,0 +1,164 @@
+
+temple  
+GET temples
+temple:id
+
+
+
+module
+GET module
+templesid/module
+
+http://localhost:3001/api/login
+post 
+{
+  
+  "email": "shreedhar@codemythought.com",
+  "password": "123456"
+}
+
+
+{
+    "message": "Login successful",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoxLCJlbWFpbCI6InNocmVlZGhhckBjb2RlbXl0aG91Z2h0LmNvbSIsInRlbXBsZV9pZCI6MSwicm9sZSI6InN1cGVyX2FkbWluIiwiaWF0IjoxNzU2NTQ3NTcyLCJleHAiOjE3NTY1NTExNzJ9.loJxdMImW_OQqcNTOn-_Nt-BduA2GWwrO_wtPis293w",
+    "email": "shreedhar@codemythought.com",
+    "temple_id": 1,
+    "role": "super_admin"
+}
+http://localhost:3001/api/temples
+
+ {
+        "id": 28,
+        "name": "Guru nanak dev",
+        "location": "bidar",
+        "description": null,
+        "created_at": "2025-08-22T07:35:28.000Z"
+    },
+http://localhost:3001/api/modules
+ {
+        "id": 1,
+        "name": "g",
+        "category": "g"
+    },
+http://localhost:3001/api/donations
+{
+  "id": 2,
+  "amount": 100,
+  "payment_method": "cash",
+  "remarks": "Birthday donation",
+  "temple_id: 1,
+  "user_id":1
+  
+}
+
+http://localhost:3001/api/donations/report/temple/28/
+
+http://localhost:3001/api/donations/report/temple/28/user/3
+
+http://localhost:3001/api/donations/report/user/3
+  {
+        "id": 7,
+        "user_id": 1,
+        "temple_id": 28,
+        "amount": "100.00",
+        "payment_method": "cash",
+        "transaction_id": null,
+        "donation_date": "2025-08-30T05:36:36.000Z",
+        "remarks": "Birthday donation",
+        "temple_name": "Guru nanak dev"
+    },
+
+http://localhost:3001/api/admin
+
+ {
+        "id": 3,
+        "name": "Guru ",
+        "phone": "1234543213",
+        "email": "shreedhar@gmail.com",
+        "temple_id": 28
+    },
+
+
+http://localhost:3001/api/devotees
+{
+  
+  "first_name": "Rani",
+  "last_name": "ranu",
+  "email": "rani@example.com",
+  "mobile": "9876543222",
+  "city": "Chennai",
+  "state": "karnataka"
+}
+
+
+
+POST http://localhost:3001/api/settings
+{
+  "temple_id": 1,
+  "logo": "/logos/ganesh.png",
+  "color_theme": "#FFAA00",
+  "sidebar": true,
+  "navbar": false,
+  "map": "https://goo.gl/maps/xyz",
+  "phone": "+91-9876543210",
+  "email": "info@ganeshtemple.com",
+  "address": "123 Temple Street, Mumbai",
+  "founded_year": 1850
+}
+GET http://localhost:3001/api/settings
+GET http://localhost:3001/api/settings/temple/1
+DELETE http://localhost:3001/api/settings/temple/1
+
+seva bookings
+http://localhost:3001/api/bookings
+{
+    "nameof": "TEST USER",
+    "gothra_id": 1,
+    "temple_id":2,
+    "deity_id":1,
+    "seva_id": 19,
+     "nakshatra_id":2,
+    "rashi_id":3,
+    "devotee_id":4,
+    "calendar_id":1,
+    "amount": 500,
+    "paymentmode_id": 1,
+    "status": "confirmed"
+  }
+
+
+  http://localhost:3001/api/seva
+
+  {
+  "name": "Abhishekam",
+  "description": "Morning ritual",
+  "amount": 500,
+  "maxlimit": 50,
+  "seats": 50,
+  "calendar": 0,
+  "special": 0,
+  "repeat_day": 1,
+  "repeat_month": 1,
+  "repeat_year": 2025,
+  "repeat_thithi": 1,
+  "repeat_paksha": 1,
+  "repeat_masa": 1,
+  "token": 0,
+  "sms_regn": 0,
+  "sms_reminder": 0,
+  "sms_confirmation": 0,
+  "email_regn": 1,
+  "email_reminder": 1,
+  "email_confirmation": 1,
+  "reminder": 2,
+  "report_sevadevoteelist": 1,
+  "report_sevaspecial": 1,
+  "is_active": 1
+}
+http://localhost:3001/api/deity
+
+{
+   
+  "temple_id": 105,
+  "name": "Lord Vishnu mondir"
+}

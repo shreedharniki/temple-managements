@@ -5,7 +5,7 @@ import Alert from "../../components/ui/Alert";
 import Dialog from "../../components/ui/Dialog";
 import Loader from "../../components/ui/Loader";
 import { apiGet, apiDelete } from "../../utils/helpers";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 
 function TempleTablePage() {
   const columns = ["id", "name", "location", "description"];
@@ -64,7 +64,12 @@ function TempleTablePage() {
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">📋 Temples</h2>
+      {/* <h2 className="text-2xl font-bold mb-4">📋 Temples</h2> */}
+        <div className="header">
+        <h2>🏛️ Temple List</h2>
+            <Button  className="add-btn"><Link to="/temple">Add Temple</Link></Button>
+        
+      </div>
 
       {alert && (
         <Alert type={alert.type} onClose={() => setAlert(null)}>

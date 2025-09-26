@@ -5,7 +5,7 @@ import { apiGet, apiPut } from "../../utils/helpers";
 import { useParams, useNavigate,Link } from "react-router-dom";
 import Button from "../../components/ui/Button";
 
-function EditTemplePage() {
+function EditDevoteesPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [form, setForm] = useState(null);
@@ -18,7 +18,7 @@ function EditTemplePage() {
   useEffect(() => {
     const fetchTemple = async () => {
       try {
-        const res = await apiGet(`/temples/${id}`, {
+        const res = await apiGet(`/devotees/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setForm(res);
@@ -43,19 +43,19 @@ function EditTemplePage() {
     const { id: _id, created_at, ...updateData } = form;
 
     try {
-      await apiPut(`/temples/${id}`, updateData, {
+      await apiPut(`/devotees/${id}`, updateData, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setAlert({ type: "success", message: "✅ Temple updated successfully" });
-      setTimeout(() => navigate("/temple-table"), 1000);
+      setAlert({ type: "success", message: "✅ devotees updated successfully" });
+      setTimeout(() => navigate("/devotees-table"), 1000);
     } catch (err) {
       console.log("API Error:", err);
-      setAlert({ type: "error", message: "❌ Failed to update temple" });
+      setAlert({ type: "error", message: "❌ Failed to update devotees" });
     }
   };
 
   if (loading) return <p>Loading...</p>;
-  if (!form) return <p>No temple found</p>;
+  if (!form) return <p>No devotees found</p>;
 
   // Generate fields dynamically (skip id & created_at)
   const fields = Object.keys(form)
@@ -68,7 +68,7 @@ function EditTemplePage() {
 
       <div className="header">
         <h2>🏛️ Edit Temple</h2>
-            <Button  className="add-btn"><Link to="/temple-table">Tample List</Link></Button>
+            <Button  className="add-btn"><Link to="/devotees-table">devotees List</Link></Button>
         
       </div>
       {alert && <Alert type={alert.type} onClose={() => setAlert(null)}>{alert.message}</Alert>}
@@ -84,4 +84,4 @@ function EditTemplePage() {
   );
 }
 
-export default EditTemplePage;
+export default EditDevoteesPage;

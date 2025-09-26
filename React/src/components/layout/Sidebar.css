@@ -39,7 +39,8 @@
 
 .sidebar {
   width: 250px;
-  background-color: #1e3a8a; /* dark blue */
+  /* background-color: #1e3a8a; */
+  background-color: #181716; 
   color: white;
   display: flex;
   flex-direction: column;
@@ -53,6 +54,10 @@
   font-weight: bold;
   font-size: 1.2rem;
   border-bottom: 1px solid #1e40af;
+}
+.sidebar-header img{
+  height: 50px;
+  width: 50px;
 }
 
 .sidebar-nav {

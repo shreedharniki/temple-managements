@@ -37,9 +37,17 @@ const updateAdminPasswordByPhone = (phone, hashedPassword, callback) => {
   });
 };
 
+const updateAdminPasswordById = (id, hashedPassword, callback) => {
+  const sql = "UPDATE admin SET password = ? WHERE id = ?";
+  db.query(sql, [hashedPassword, id], (err, result) => {
+    if (err) return callback(err);
+    callback(null, result);
+  });
+};
 module.exports = {
   findAdminByEmail,
   findAdminByPhone,
   updateAdminPasswordByEmail,
   updateAdminPasswordByPhone,
+  updateAdminPasswordById, // ✅ new
 };

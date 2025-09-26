@@ -179,4 +179,11 @@ export const forgotPasswordApi = (data) => apiPost("/login/forgot-password", dat
 export const verifyOtpApi = (data) => apiPost("/login/verify-otp", data);
 export const resetPasswordApi = (data) => apiPost("/login/reset-password", data);
 
+
+// ✅ Change password (for logged-in users)
+
+export const changePasswordApi = (data) => apiPost("/login/change-password", data); // 👈 fixed route
+
+
+
 export default api;

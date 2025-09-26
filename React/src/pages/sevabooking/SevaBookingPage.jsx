@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Form from "../components/ui/Form";
-import Alert from "../components/ui/Alert";
-import { apiGet, apiPost } from "../utils/helpers";
+import Form from "../../components/ui/Form";
+import Alert from "../../components/ui/Alert";
+import { apiGet, apiPost } from "../../utils/helpers";
 
 function SevaBookingPage() {
   const [form, setForm] = useState({

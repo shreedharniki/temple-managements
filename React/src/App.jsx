@@ -9,18 +9,19 @@ import LoginPage from "./pages/Auth/LoginPage";
  import AdminPage from "./pages/admin/AdminPage";
  import AdminTablePage from "./pages/admin/AdminTablePage";
  import EditAdminPage from "./pages/admin/EditAdminPage";
- import DevoteesPage from "./pages/DevoteesPage";
+ import DevoteesPage from "./pages/devotees/DevoteesPage";
  import DonationPage from "./pages/DonationPage";
- import DevoteesTablePage from "./pages/DevoteesTablePage"
+ import DevoteesTablePage from "./pages/devotees/DevoteesTablePage"
  import SettingsPage from "./pages/Settingspage";
  import SevaPage from "./pages/SevaPage";
 import SevaTablePage from "./pages/SevaTablePage";
  import TemplePage from "./pages/temple/TemplePage";
  import TempleTablePage from "./pages/temple/TempleTablePage";
  import EditTemplePage from "./pages/temple/EditTemplePage";
+ import EditDevoteesPage from "./pages/devotees/EditDevoteesPage";
 
- import SevaBookingsPage from "./pages/SevaBookingPage"
- import SevaBookingTablePage from "./pages/SevaBookingTablePage";
+ import SevaBookingsPage from "./pages/sevabooking/SevaBookingPage"
+ import SevaBookingTablePage from "./pages/sevabooking/SevaBookingTablePage";
  import DeityPage from "./pages/DeityPage"
 
 import DeityTablePage from "./pages/DeityTablePage";
@@ -43,6 +44,7 @@ function App() {
 
         <Route path="/admin-table" element={<AdminTablePage/>}/>
         <Route path="/admin/edit/:id" element={<EditAdminPage/>} />
+        <Route path="/devotee/edit/:id" element={<EditDevoteesPage/>} />
         <Route path="/devotees" element={<DevoteesPage />} />
        <Route path="/devotees-table" element={<DevoteesTablePage />} />
         <Route path="/donation" element={<DonationPage/>}/>

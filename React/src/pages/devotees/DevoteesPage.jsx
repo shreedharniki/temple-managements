@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Form from "../components/ui/Form";
-import Alert from "../components/ui/Alert";
-import { apiGet, apiPost } from "../utils/helpers";
+import Form from "../../components/ui/Form";
+import Alert from "../../components/ui/Alert";
+import { apiGet, apiPost } from "../../utils/helpers";
+import { useNavigate,Link } from "react-router-dom";
+import Button from "../../components/ui/Button";
 
 function DevoteesPage() {
   const [form, setForm] = useState({
@@ -25,7 +27,7 @@ function DevoteesPage() {
   const [alert, setAlert] = useState(null);
   const [devotees, setDevotees] = useState([]);
   const token = localStorage.getItem("token");
-
+const navigate = useNavigate();
   // Fetch existing devotees
   useEffect(() => {
     const fetchDevotees = async () => {
@@ -87,6 +89,11 @@ function DevoteesPage() {
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-4">➕ Add Devotee</h2>
+      <div className="header">
+                    <h2>🏛️ ➕ Add Devotee</h2>
+                        <Button  className="add-btn"><Link to="/devotees-table">Devotee List</Link></Button>
+                    
+                  </div>
 
       {alert && (
         <Alert type={alert.type} onClose={() => setAlert(null)}>

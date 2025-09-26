@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import Table from "../components/ui/Table";
-import Button from "../components/ui/Button";
-import Alert from "../components/ui/Alert";
-import Dialog from "../components/ui/Dialog";
-import Loader from "../components/ui/Loader";
-import { apiGet, apiDelete } from "../utils/helpers"; // centralized axios helpers
-
+import Table from "../../components/ui/Table";
+import Button from "../../components/ui/Button";
+import Alert from "../../components/ui/Alert";
+import Dialog from "../../components/ui/Dialog";
+import Loader from "../../components/ui/Loader";
+import { apiGet, apiDelete } from "../../utils/helpers"; // centralized axios helpers
+import { Link } from "react-router-dom";
+import './sevabooking.css'
 function SevaBookingTablePage() {
   // ✅ define table columns (adjust if your API returns different fields)
   const columns = [
@@ -60,8 +61,12 @@ function SevaBookingTablePage() {
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">📋 Seva Bookings</h2>
-
+      
+      <div className="header">
+    <h2>📋 Seva Bookings</h2>
+        <Button  className="add-btn"><Link to="/seva-bookings">Add Seva Booking</Link></Button>
+    
+  </div>
       {alert && (
         <Alert type={alert.type} onClose={() => setAlert(null)}>
           {alert.message}
@@ -71,7 +76,9 @@ function SevaBookingTablePage() {
       {loading ? (
         <Loader />
       ) : (
+         
         <Table
+       
           columns={columns}
           data={data}
           renderRowActions={(row) => (

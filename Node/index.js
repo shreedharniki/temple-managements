@@ -18,11 +18,11 @@ const sevaBookingRoutes = require("./routes/sevaBookingRoutes");
 // app.use(cors());
 
 app.use(cors(
-  // {
-//   origin: 'http://localhost:5173', // your frontend URLd
-//   credentials: true,
+  {
+  origin: 'http://localhost:5173', // your frontend URLd
+  credentials: true,
 
-// }
+}
 ));
 app.use(express.json());
 app.use(cookieParser());

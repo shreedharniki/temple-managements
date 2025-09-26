@@ -35,6 +35,8 @@ import "./Table.css";
 
 export default function Table({ columns, data, renderRowActions }) {
   return (
+    <>
+  
     <table className="table">
       <thead>
         <tr>
@@ -55,5 +57,6 @@ export default function Table({ columns, data, renderRowActions }) {
         ))}
       </tbody>
     </table>
+    </>
   );
 }

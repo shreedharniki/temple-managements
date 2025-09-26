@@ -1,0 +1,28 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #d1d5db; /* gray-300 */
+  background-color: #ffffff;
+}
+
+/* Table head */
+.table thead {
+  background-color: #e5e7eb; /* gray-200 */
+}
+
+.table th {
+  border: 1px solid #d1d5db;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+/* Table body */
+.table td {
+  border: 1px solid #d1d5db;
+  padding: 0.5rem 0.75rem;
+}
+
+.table tr:hover {
+  background-color: #f9fafb; /* gray-100 */
+}

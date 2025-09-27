@@ -14,15 +14,17 @@ export default function Dashboard() {
   ]);
 
   const [loading, setLoading] = useState(true);
-
+  //  const baseURL ="https://tms.codemythought.com/api"
+   
   useEffect(() => {
     const fetchStats = async () => {
       try {
         const [templesRes, donationsRes, devoteesRes, bookingsRes] = await Promise.all([
-          axios.get("http://localhost:3001/api/temples"),
-          axios.get("http://localhost:3001/api/donations"),
-          axios.get("http://localhost:3001/api/devotees"),
-          axios.get("http://localhost:3001/api/bookings"),
+          axios.get("https://tms.codemythought.com/api/temples"),
+          axios.get("https://tms.codemythought.com/api/donations"),
+          axios.get("https://tms.codemythought.com/api/devotees"),
+          axios.get("https://tms.codemythought.com/api/bookings"),
+
         ]);
 
       setStats([

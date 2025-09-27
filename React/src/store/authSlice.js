@@ -1,91 +1,3 @@
-// import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-// import { loginApi, forgotPasswordApi, verifyOtpApi, resetPasswordApi } from "../utils/helpers";
-
-// // Async thunks
-// export const loginUser = createAsyncThunk("auth/loginUser", async ({ email, password }, { rejectWithValue }) => {
-//   try {
-//     const res = await loginApi({ email, password });
-//     localStorage.setItem("token", res.token);
-//     localStorage.setItem("role", res.role);
-//     localStorage.setItem("temple_id", res.temple_id);
-//     return res;
-//   } catch (err) {
-//     return rejectWithValue(err.message || "Login failed");
-//   }
-// });
-
-// export const forgotPassword = createAsyncThunk("auth/forgotPassword", async (email, { rejectWithValue }) => {
-//   try {
-//     const res = await forgotPasswordApi({ email });
-//     return res;
-//   } catch (err) {
-//     return rejectWithValue(err.message || "Failed to send OTP");
-//   }
-// });
-
-// export const verifyOtp = createAsyncThunk("auth/verifyOtp", async ({ email, otp }, { rejectWithValue }) => {
-//   try {
-//     const res = await verifyOtpApi({ email, otp });
-//     return res;
-//   } catch (err) {
-//     return rejectWithValue(err.message || "Invalid OTP");
-//   }
-// });
-
-// export const resetPassword = createAsyncThunk("auth/resetPassword", async ({ email, otp, newPassword }, { rejectWithValue }) => {
-//   try {
-//     const res = await resetPasswordApi({ email, otp, newPassword });
-//     return res;
-//   } catch (err) {
-//     return rejectWithValue(err.message || "Reset failed");
-//   }
-// });
-
-// // Slice
-// const authSlice = createSlice({
-//   name: "auth",
-//   initialState: {
-//     step: "login", // login | forgot | otp | reset
-//     loading: false,
-//     alert: null,
-//     user: null,
-//   },
-//   reducers: {
-//     setStep: (state, action) => { state.step = action.payload; },
-//     logout: (state) => {
-//       state.user = null;
-//       localStorage.removeItem("token");
-//       localStorage.removeItem("role");
-//       localStorage.removeItem("temple_id");
-//       state.step = "login";
-//     },
-//   },
-//   extraReducers: (builder) => {
-//     builder
-//       .addCase(loginUser.pending, (state) => { state.loading = true; state.alert = null; })
-//       .addCase(loginUser.fulfilled, (state, action) => { state.loading = false; state.user = action.payload; state.alert = { type: "success", message: action.payload.message }; })
-//       .addCase(loginUser.rejected, (state, action) => { state.loading = false; state.alert = { type: "error", message: action.payload }; })
-
-//       .addCase(forgotPassword.pending, (state) => { state.loading = true; state.alert = null; })
-//       .addCase(forgotPassword.fulfilled, (state, action) => { state.loading = false; state.alert = { type: "success", message: action.payload.message }; state.step = "otp"; })
-//       .addCase(forgotPassword.rejected, (state, action) => { state.loading = false; state.alert = { type: "error", message: action.payload }; })
-
-//       .addCase(verifyOtp.pending, (state) => { state.loading = true; state.alert = null; })
-//       .addCase(verifyOtp.fulfilled, (state, action) => { state.loading = false; state.alert = { type: "success", message: action.payload.message }; state.step = "reset"; })
-//       .addCase(verifyOtp.rejected, (state, action) => { state.loading = false; state.alert = { type: "error", message: action.payload }; })
-
-//       .addCase(resetPassword.pending, (state) => { state.loading = true; state.alert = null; })
-//       .addCase(resetPassword.fulfilled, (state, action) => { state.loading = false; state.alert = { type: "success", message: action.payload.message }; state.step = "login"; })
-//       .addCase(resetPassword.rejected, (state, action) => { state.loading = false; state.alert = { type: "error", message: action.payload }; });
-//   }
-// });
-
-// export const { setStep, logout } = authSlice.actions;
-// export default authSlice.reducer;
-
-
-
-
 // features/authSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
@@ -97,20 +9,21 @@ import {
 } from "../utils/helpers";
 
 /**
- * 🔑 Thunks
+ * 🔑 Async Thunks
  */
 
-// ✅ Login
+// Login
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async ({ email, password }, { rejectWithValue }) => {
     try {
       const res = await loginApi({ email, password });
-      // Expected response: { token, role, temple_id, message, user }
+      // Save tokens/roles locally
       localStorage.setItem("token", res.token);
       localStorage.setItem("role", res.role);
       if (res.temple_id) localStorage.setItem("temple_id", res.temple_id);
 
+      // Return the full response
       return res;
     } catch (err) {
       return rejectWithValue(err.message || "Login failed");
@@ -118,7 +31,7 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-// ✅ Forgot password
+// Forgot password
 export const forgotPassword = createAsyncThunk(
   "auth/forgotPassword",
   async (email, { rejectWithValue }) => {
@@ -130,7 +43,7 @@ export const forgotPassword = createAsyncThunk(
   }
 );
 
-// ✅ Verify OTP
+// Verify OTP
 export const verifyOtp = createAsyncThunk(
   "auth/verifyOtp",
   async ({ email, otp }, { rejectWithValue }) => {
@@ -142,7 +55,7 @@ export const verifyOtp = createAsyncThunk(
   }
 );
 
-// ✅ Reset password
+// Reset Password
 export const resetPassword = createAsyncThunk(
   "auth/resetPassword",
   async ({ email, otp, newPassword }, { rejectWithValue }) => {
@@ -154,7 +67,7 @@ export const resetPassword = createAsyncThunk(
   }
 );
 
-// ✅ Change password (authenticated user)
+// Change password for logged-in users
 export const changePassword = createAsyncThunk(
   "auth/changePassword",
   async ({ oldPassword, newPassword }, { rejectWithValue }) => {
@@ -175,7 +88,6 @@ const authSlice = createSlice({
     step: "login", // login | forgot | otp | reset
     loading: false,
     alert: null,
-    user: null,
     token: localStorage.getItem("token") || null,
     role: localStorage.getItem("role") || null,
   },
@@ -183,14 +95,14 @@ const authSlice = createSlice({
     setStep: (state, action) => {
       state.step = action.payload;
     },
-     setAlert: (state, action) => {   // 👈 added
+    setAlert: (state, action) => {
       state.alert = action.payload;
     },
     logout: (state) => {
-      state.user = null;
       state.token = null;
       state.role = null;
       state.step = "login";
+      state.alert = null;
 
       localStorage.removeItem("token");
       localStorage.removeItem("role");
@@ -199,31 +111,23 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      /**
-       * 🟢 Login
-       */
+      // Login
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.alert = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload.user || null;
         state.token = action.payload.token;
         state.role = action.payload.role;
-        state.alert = {
-          type: "success",
-          message: action.payload.message || "Login successful",
-        };
+        state.alert = { type: "success", message: action.payload.message || "Login successful" };
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.alert = { type: "error", message: action.payload };
       })
 
-      /**
-       * 🟢 Forgot Password
-       */
+      // Forgot Password
       .addCase(forgotPassword.pending, (state) => {
         state.loading = true;
         state.alert = null;
@@ -238,9 +142,7 @@ const authSlice = createSlice({
         state.alert = { type: "error", message: action.payload };
       })
 
-      /**
-       * 🟢 Verify OTP
-       */
+      // Verify OTP
       .addCase(verifyOtp.pending, (state) => {
         state.loading = true;
         state.alert = null;
@@ -255,9 +157,7 @@ const authSlice = createSlice({
         state.alert = { type: "error", message: action.payload };
       })
 
-      /**
-       * 🟢 Reset Password
-       */
+      // Reset Password
       .addCase(resetPassword.pending, (state) => {
         state.loading = true;
         state.alert = null;
@@ -272,9 +172,7 @@ const authSlice = createSlice({
         state.alert = { type: "error", message: action.payload };
       })
 
-      /**
-       * 🟢 Change Password
-       */
+      // Change Password
       .addCase(changePassword.pending, (state) => {
         state.loading = true;
         state.alert = null;
@@ -290,6 +188,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { setStep,setAlert, logout } = authSlice.actions;
+export const { setStep, setAlert, logout } = authSlice.actions;
 export default authSlice.reducer;
-

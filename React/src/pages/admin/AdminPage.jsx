@@ -3,7 +3,8 @@ import { useSelector } from "react-redux";
 import Form from "../../components/ui/Form";
 import Alert from "../../components/ui/Alert";
 import { apiGet, apiPost } from "../../utils/helpers";
-
+import Button from "../../components/ui/Button";
+import {  Link } from "react-router-dom";
 function AdminPage() {
   const [form, setForm] = useState({
     name: "",
@@ -25,6 +26,7 @@ function AdminPage() {
         const res = await apiGet("/temples", { headers: { Authorization: `Bearer ${token}` } });
         const options = (res.data || res).map((t) => ({ value: t.id, label: t.name }));
         setTemples(options);
+       
       } catch (err) {
         console.error("Failed to fetch temples:", err);
       }
@@ -70,7 +72,13 @@ function AdminPage() {
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">➕ Add Temple Admin</h2>
+      {/* <h2 className="text-2xl font-bold mb-4">➕ Add Temple Admin</h2> */}
+      <div className="header">
+        <h2>🏛️  Add Temple Admin </h2>
+        <Button className="add-btn">
+          <Link to="/admin-table">📋 Admin List</Link>
+        </Button>
+      </div>
 
       {alert && (
                 <Alert type={alert.type} className="text-black" onClose={() => setAlert(null)}>

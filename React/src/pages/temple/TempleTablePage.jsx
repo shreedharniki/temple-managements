@@ -5,10 +5,17 @@ import Alert from "../../components/ui/Alert";
 import Dialog from "../../components/ui/Dialog";
 import Loader from "../../components/ui/Loader";
 import { apiGet, apiDelete } from "../../utils/helpers";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function TempleTablePage() {
-  const columns = ["id", "name", "location", "description"];
+ 
+  const columns = [
+    { field: "id", label: "ID" },
+    { field: "name", label: "Temple Name" },
+    { field: "location", label: "Location" },
+    { field: "description", label: "Description" },
+  ];
+
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
@@ -18,7 +25,7 @@ function TempleTablePage() {
   const role = localStorage.getItem("role");
   const navigate = useNavigate();
 
-  // Fetch all temples
+  // Fetch temples
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -37,18 +44,18 @@ function TempleTablePage() {
     fetchData();
   }, []);
 
-  // Open delete dialog
-  const handleDelete = (item) => {
-    setDeleteDialog({ open: true, item });
-  };
+  // Navigate to edit
+  const handleEdit = (item) => navigate(`/temples/edit/${item.id}`);
 
-  // Confirm delete
+  // Delete
+  const handleDelete = (item) => setDeleteDialog({ open: true, item });
+
   const confirmDelete = async () => {
     try {
       await apiDelete(`/temples/${deleteDialog.item.id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setAlert({ type: "success", message: `✅ ${deleteDialog.item.name} deleted!` });
+      setAlert({ type: "success", message: `✅ Temple "${deleteDialog.item.name}" deleted!` });
       fetchData();
     } catch (err) {
       setAlert({ type: "error", message: "❌ Failed to delete temple" });
@@ -57,56 +64,35 @@ function TempleTablePage() {
     }
   };
 
-  // Navigate to edit page
-  const handleEdit = (item) => {
-    navigate(`/temples/edit/${item.id}`);
-  };
-
   return (
     <div className="p-6">
-      {/* <h2 className="text-2xl font-bold mb-4">📋 Temples</h2> */}
-        <div className="header">
+      <div className="header">
         <h2>🏛️ Temple List</h2>
-            <Button  className="add-btn"><Link to="/temple">Add Temple</Link></Button>
-        
+        <Button className="add-btn">
+          <Link to="/temple">➕ Add Temple</Link>
+        </Button>
       </div>
 
-      {alert && (
-        <Alert type={alert.type} onClose={() => setAlert(null)}>
-          {alert.message}
-        </Alert>
-      )}
+      {alert && <Alert type={alert.type} onClose={() => setAlert(null)}>{alert.message}</Alert>}
 
       {loading ? (
         <Loader />
       ) : (
         <Table
-          columns={columns}
+          columns={columns} // Show labels in table header
           data={data}
           renderRowActions={(row) => (
             <>
-              <Button
-                variant="secondary"
-                className="mr-2"
-                onClick={() => handleEdit(row)}
-              >
-                Edit
-              </Button>
-
+              <Button variant="secondary" className="mr-2" onClick={() => handleEdit(row)}>Edit</Button>
               {role === "super_admin" && (
-                <Button
-                  variant="destructive"
-                  onClick={() => handleDelete(row)}
-                >
-                  Delete
-                </Button>
+                <Button variant="destructive" onClick={() => handleDelete(row)}>Delete</Button>
               )}
             </>
           )}
+          fieldMapping={columns.map(c => c.field)} // optional: map labels to data keys
         />
       )}
 
-      {/* Delete confirmation dialog */}
       <Dialog
         open={deleteDialog.open}
         onClose={() => setDeleteDialog({ open: false, item: null })}
@@ -114,12 +100,8 @@ function TempleTablePage() {
         description={`Are you sure you want to delete "${deleteDialog.item?.name}"?`}
         actions={
           <>
-            <Button onClick={() => setDeleteDialog({ open: false, item: null })}>
-              Cancel
-            </Button>
-            <Button variant="destructive" onClick={confirmDelete}>
-              Delete
-            </Button>
+            <Button onClick={() => setDeleteDialog({ open: false, item: null })}>Cancel</Button>
+            <Button variant="destructive" onClick={confirmDelete}>Delete</Button>
           </>
         }
       />

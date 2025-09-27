@@ -2,20 +2,20 @@ import React, { useState, useEffect } from "react";
 import Form from "../../components/ui/Form";
 import Alert from "../../components/ui/Alert";
 import { apiGet, apiPost } from "../../utils/helpers";
+import { useNavigate, Link } from "react-router-dom";
+import Button from "../../components/ui/Button";
 
 function SevaBookingPage() {
   const [form, setForm] = useState({
-    nameof: "",
-    gothra_id: "",
+    devotee_name: "",
+    seva_date: "",
     temple_id: "",
-    deity_id: "",
-    seva_id: "",
-    nakshatra_id: "",
-    rashi_id: "",
-    devotee_id: "",
-    calendar_id: "",
+    deity_name: "",
+    seva_name: "",
+    gothra: "",
+    nakshatra: "",
+    rashi: "",
     amount: "",
-    paymentmode_id: "",
     status: "confirmed",
   });
 
@@ -23,9 +23,9 @@ function SevaBookingPage() {
   const [temples, setTemples] = useState([]);
   const [deities, setDeities] = useState([]);
   const [sevas, setSevas] = useState([]);
-  // const [paymentModes, setPaymentModes] = useState([]);
   const [devotees, setDevotees] = useState([]);
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
   // Fetch dropdown options
   useEffect(() => {
@@ -37,7 +37,7 @@ function SevaBookingPage() {
         });
         setDevotees(
           (devoteeRes.data || devoteeRes).map((d) => ({
-            value: d.id,
+            value: `${d.first_name} ${d.last_name}`,
             label: `${d.first_name} ${d.last_name}`,
           }))
         );
@@ -59,7 +59,7 @@ function SevaBookingPage() {
         });
         setDeities(
           (deityRes.data || deityRes).map((d) => ({
-            value: d.id,
+            value: d.name,
             label: d.name,
           }))
         );
@@ -70,18 +70,10 @@ function SevaBookingPage() {
         });
         setSevas(
           (sevaRes.data || sevaRes).map((s) => ({
-            value: s.id,
+            value: s.name,
             label: s.name,
           }))
         );
-
-      
-        // setPaymentModes(
-        //   (payRes.data || payRes).map((p) => ({
-        //     value: p.id,
-        //     label: p.name,
-        //   }))
-        // );
       } catch (err) {
         console.error("Failed to fetch options", err);
         setAlert({ type: "error", message: "Failed to load form options" });
@@ -94,11 +86,12 @@ function SevaBookingPage() {
   // Form fields
   const fields = [
     {
-      name: "devotee_id",
-      label: "Select Devotee",
+      name: "devotee_name",
+      label: "Devotee",
       type: "select",
       options: [{ value: "", label: "Select Devotee" }, ...devotees],
     },
+    { name: "seva_date", label: "Seva Date", type: "date" },
     {
       name: "temple_id",
       label: "Temple",
@@ -106,161 +99,109 @@ function SevaBookingPage() {
       options: [{ value: "", label: "Select Temple" }, ...temples],
     },
     {
-      name: "deity_id",
+      name: "deity_name",
       label: "Deity",
       type: "select",
       options: [{ value: "", label: "Select Deity" }, ...deities],
     },
     {
-      name: "seva_id",
+      name: "seva_name",
       label: "Seva",
       type: "select",
       options: [{ value: "", label: "Select Seva" }, ...sevas],
     },
+    { name: "amount", label: "Amount", type: "number", placeholder: "Enter Amount" },
     {
-      name: "calendar_id",
-      label: "Calendar ID",
-      type: "text",
-      placeholder: "Enter Calendar ID",
-    },
-    {
-      name: "amount",
-      label: "Amount",
-      type: "number",
-      placeholder: "Enter Amount",
-    },
-     {
-      name: "paymentmode_id",
-      label: "Payment Mode",
-      type: "select",
-      options: [
-        { value: "", label: "SelectPayment Mode" },
-        { value: 1, label: "online" },
-        { value: 2, label: "cash" },
-     
-      ],
-    },
-    // {
-    //   name: "paymentmode_id",
-    //   label: "Payment Mode",
-    //   type: "select",
-    //   options: [{ value: "", label: "Select Payment Mode" }, ...paymentModes],
-    // },
-
-    // Gothra
-    {
-      name: "gothra_id",
+      name: "gothra",
       label: "Gothra",
       type: "select",
       options: [
         { value: "", label: "Select Gothra" },
-        { value: 1, label: "Bharadwaj" },
-        { value: 2, label: "Kashyap" },
-        { value: 3, label: "Vashishtha" },
-        { value: 4, label: "Vishwamitra" },
-        { value: 5, label: "Gautam" },
-        { value: 6, label: "Atri" },
-        { value: 7, label: "Agastya" },
-        { value: 8, label: "Jamadagni" },
-        { value: 9, label: "Kaushik" },
+        { value: "Bharadwaj", label: "Bharadwaj" },
+        { value: "Kashyap", label: "Kashyap" },
+        { value: "Vashishtha", label: "Vashishtha" },
+        { value: "Vishwamitra", label: "Vishwamitra" },
+        { value: "Gautam", label: "Gautam" },
+        { value: "Atri", label: "Atri" },
+        { value: "Agastya", label: "Agastya" },
+        { value: "Jamadagni", label: "Jamadagni" },
+        { value: "Kaushik", label: "Kaushik" },
       ],
     },
-
-    // Nakshatra
     {
-      name: "nakshatra_id",
+      name: "nakshatra",
       label: "Nakshatra",
       type: "select",
       options: [
         { value: "", label: "Select Nakshatra" },
-        { value: 1, label: "Ashwini" },
-        { value: 2, label: "Bharani" },
-        { value: 3, label: "Krittika" },
-        { value: 4, label: "Rohini" },
-        { value: 5, label: "Mrigashira" },
-        { value: 6, label: "Ardra" },
-        { value: 7, label: "Punarvasu" },
-        { value: 8, label: "Pushya" },
-        { value: 9, label: "Ashlesha" },
-        { value: 10, label: "Magha" },
-        { value: 11, label: "Purva Phalguni" },
-        { value: 12, label: "Uttara Phalguni" },
-        { value: 13, label: "Hasta" },
-        { value: 14, label: "Chitra" },
-        { value: 15, label: "Swati" },
-        { value: 16, label: "Vishakha" },
-        { value: 17, label: "Anuradha" },
-        { value: 18, label: "Jyeshtha" },
-        { value: 19, label: "Mula" },
-        { value: 20, label: "Purva Ashadha" },
-        { value: 21, label: "Uttara Ashadha" },
-        { value: 22, label: "Shravana" },
-        { value: 23, label: "Dhanishta" },
-        { value: 24, label: "Shatabhisha" },
-        { value: 25, label: "Purva Bhadrapada" },
+        { value: "Ashwini", label: "Ashwini" },
+        { value: "Bharani", label: "Bharani" },
+        { value: "Krittika", label: "Krittika" },
+        { value: "Rohini", label: "Rohini" },
+        { value: "Mrigashira", label: "Mrigashira" },
       ],
     },
-
-    // Rashi
     {
-      name: "rashi_id",
+      name: "rashi",
       label: "Rashi",
       type: "select",
       options: [
         { value: "", label: "Select Rashi" },
-        { value: 1, label: "Mesha (Aries)" },
-        { value: 2, label: "Vrishabha (Taurus)" },
-        { value: 3, label: "Mithuna (Gemini)" },
-        { value: 4, label: "Karka (Cancer)" },
-        { value: 5, label: "Simha (Leo)" },
-        { value: 6, label: "Kanya (Virgo)" },
-        { value: 7, label: "Tula (Libra)" },
-        { value: 8, label: "Vrischika (Scorpio)" },
-        { value: 9, label: "Dhanu (Sagittarius)" },
-        { value: 10, label: "Makara (Capricorn)" },
-        { value: 11, label: "Kumbha (Aquarius)" },
-        { value: 12, label: "Meena (Pisces)" },
+        { value: "Mesha (Aries)", label: "Mesha (Aries)" },
+        { value: "Vrishabha (Taurus)", label: "Vrishabha (Taurus)" },
       ],
     },
   ];
 
+  // Handle input change
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
+  // Handle form submission
   const handleSubmit = async () => {
     try {
-      await apiPost("/bookings", form, {
+      const payload = {
+        ...form,
+        temple_id: form.temple_id ? parseInt(form.temple_id) : null,
+        amount: form.amount ? parseFloat(form.amount) : 0,
+      };
+
+      await apiPost("/bookings", payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
+
       setAlert({ type: "success", message: "✅ Booking created successfully!" });
+
+      // Reset form
       setForm({
-        nameof: "",
-        gothra_id: "",
+        devotee_name: "",
+        seva_date: "",
         temple_id: "",
-        deity_id: "",
-        seva_id: "",
-        nakshatra_id: "",
-        rashi_id: "",
-        devotee_id: "",
-        calendar_id: "",
+        deity_name: "",
+        seva_name: "",
+        gothra: "",
+        nakshatra: "",
+        rashi: "",
         amount: "",
-        paymentmode_id: "",
         status: "confirmed",
       });
     } catch (err) {
+      console.error("Booking API Error:", err.response || err);
       setAlert({
         type: "error",
-        message:
-          err.response?.data?.message || "❌ Failed to create booking",
+        message: err.response?.data?.message || "❌ Failed to create booking",
       });
     }
   };
 
   return (
-    <>
-    
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">➕ Seva Booking</h2>
+      <div className="header flex justify-between items-center mb-4">
+        <h2 className="text-2xl font-bold">➕ Seva Booking</h2>
+        <Button className="add-btn">
+          <Link to="/seva-bookings-table">Seva Booking List</Link>
+        </Button>
+      </div>
 
       {alert && (
         <Alert type={alert.type} onClose={() => setAlert(null)}>
@@ -275,10 +216,7 @@ function SevaBookingPage() {
         onSubmit={handleSubmit}
         submitLabel="Create Booking"
       />
-      
     </div>
-    </>
-    
   );
 }
 

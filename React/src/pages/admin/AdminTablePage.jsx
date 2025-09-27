@@ -10,10 +10,16 @@ import Alert from "../../components/ui/Alert";
 import Dialog from "../../components/ui/Dialog";
 import Loader from "../../components/ui/Loader";
 import { apiGet, apiDelete } from "../../utils/helpers";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
+
 
 function AdminTablePage() {
-  const columns = ["id", "name", "temple_id", "phone", "email"];
+ const columns = [
+    { field: "id", label: "ID" },
+    { field: "name", label: "Temple Name" },
+    { field: "phone", label: "Phone Number" },
+    { field: "email", label: "Email" },
+  ];
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
@@ -23,6 +29,7 @@ function AdminTablePage() {
   const role = localStorage.getItem("role");
   const navigate = useNavigate();
 
+  
   // Fetch all temples
   const fetchData = async () => {
     setLoading(true);
@@ -69,8 +76,13 @@ function AdminTablePage() {
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">📋 Admins List</h2>
-
+      {/* <h2 className="text-2xl font-bold mb-4">📋 Admins List</h2> */}
+     <div className="header">
+        <h2>🏛️  Add Temple Admin </h2>
+        <Button className="add-btn">
+          <Link to="/admin">📋 Add Temple Admin</Link>
+        </Button>
+      </div>
       {alert && (
         <Alert type={alert.type} onClose={() => setAlert(null)}>
           {alert.message}

@@ -96,7 +96,7 @@ function Sidebar() {
         </div>
 
         {/* 🔽 Seva */}
-        <div>
+        {/* <div>
           <button
             className="sidebar-link submenu-toggle"
             onClick={() => toggleSubMenu("seva")}
@@ -113,7 +113,7 @@ function Sidebar() {
               </Link>
             </div>
           )}
-        </div>
+        </div> */}
 
         {/* 🔽 Seva Bookings */}
         <div>
@@ -136,7 +136,7 @@ function Sidebar() {
         </div>
 
         {/* 🔽 Deity */}
-        <div>
+        {/* <div>
           <button
             className="sidebar-link submenu-toggle"
             onClick={() => toggleSubMenu("deity")}
@@ -153,7 +153,7 @@ function Sidebar() {
               </Link>
             </div>
           )}
-        </div>
+        </div> */}
 
         {/* Other single links */}
         <Link to="/donation" className="sidebar-link">

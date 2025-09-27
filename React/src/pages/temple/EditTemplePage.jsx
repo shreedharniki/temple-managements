@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Form from "../../components/ui/Form";
 import Alert from "../../components/ui/Alert";
 import { apiGet, apiPut } from "../../utils/helpers";
-import { useParams, useNavigate,Link } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import Button from "../../components/ui/Button";
 
 function EditTemplePage() {
@@ -39,7 +39,6 @@ function EditTemplePage() {
 
   // Handle submit
   const handleSubmit = async () => {
-    // Remove read-only fields before sending
     const { id: _id, created_at, ...updateData } = form;
 
     try {
@@ -49,7 +48,7 @@ function EditTemplePage() {
       setAlert({ type: "success", message: "✅ Temple updated successfully" });
       setTimeout(() => navigate("/temple-table"), 1000);
     } catch (err) {
-      console.log("API Error:", err);
+      console.error("API Error:", err);
       setAlert({ type: "error", message: "❌ Failed to update temple" });
     }
   };
@@ -57,21 +56,25 @@ function EditTemplePage() {
   if (loading) return <p>Loading...</p>;
   if (!form) return <p>No temple found</p>;
 
-  // Generate fields dynamically (skip id & created_at)
+  // Generate form fields dynamically, skip read-only fields
   const fields = Object.keys(form)
     .filter((key) => key !== "id" && key !== "created_at")
-    .map((key) => ({ name: key, label: key }));
+    .map((key) => ({ name: key, label: key.replace(/_/g, " ").toUpperCase() }));
 
   return (
     <div className="p-6">
-      {/* <h2 className="text-2xl font-bold mb-4">🏛️ Edit Temple</h2> */}
-
       <div className="header">
         <h2>🏛️ Edit Temple</h2>
-            <Button  className="add-btn"><Link to="/temple-table">Tample List</Link></Button>
-        
+        <Button className="add-btn">
+          <Link to="/temple-table">🏛️ Temple List</Link>
+        </Button>
       </div>
-      {alert && <Alert type={alert.type} onClose={() => setAlert(null)}>{alert.message}</Alert>}
+
+      {alert && (
+        <Alert type={alert.type} onClose={() => setAlert(null)}>
+          {alert.message}
+        </Alert>
+      )}
 
       <Form
         fields={fields}

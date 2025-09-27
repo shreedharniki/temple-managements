@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
-import axios from "axios";
+import { apiGet, apiDelete } from "../utils/helpers"; 
+// import axios from "axios";
 import "./Dashboard.css";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28"];
@@ -14,39 +15,38 @@ export default function Dashboard() {
   ]);
 
   const [loading, setLoading] = useState(true);
-  //  const baseURL ="https://tms.codemythought.com/api"
-   
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const [templesRes, donationsRes, devoteesRes, bookingsRes] = await Promise.all([
-          axios.get("https://tms.codemythought.com/api/temples"),
-          axios.get("https://tms.codemythought.com/api/donations"),
-          axios.get("https://tms.codemythought.com/api/devotees"),
-          axios.get("https://tms.codemythought.com/api/bookings"),
 
-        ]);
+   
+ useEffect(() => {
+  const fetchStats = async () => {
+    try {
+      const [templesRes, donationsRes, devoteesRes, bookingsRes] = await Promise.all([
+        apiGet("/temples"),
+        apiGet("/donations"),
+        apiGet("/devotees"),
+        apiGet("/bookings"),
+      ]);
 
       setStats([
-          { title: "devotees", value: devoteesRes.data.length, icon: "👤" },
-          { 
-            title: "Revenue/donations", 
-            value: donationsRes.data.reduce((sum, d) => sum + Number(d.amount || 0), 0), 
-            icon: "💰" 
-          },
-          { title: "temples", value: templesRes.data.length, icon: "📦" },
-          { title: "Bookings", value: bookingsRes.data.length, icon: "💬" },
-        ]);
+        { title: "devotees", value: devoteesRes.length, icon: "👤" },
+        { 
+          title: "Revenue/donations", 
+          value: donationsRes.reduce((sum, d) => sum + Number(d.amount || 0), 0), 
+          icon: "💰" 
+        },
+        { title: "temples", value: templesRes.length, icon: "📦" },
+        { title: "Bookings", value: bookingsRes.length, icon: "💬" },
+      ]);
+    } catch (err) {
+      console.error("❌ Failed to fetch dashboard stats", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-      } catch (err) {
-        console.error("❌ Failed to fetch dashboard stats", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  fetchStats();
+}, []);
 
-    fetchStats();
-  }, []);
 
   // Example pie chart (static for now, but you can replace with real data later)
   const pieData = [

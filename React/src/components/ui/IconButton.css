@@ -1,0 +1,39 @@
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.icon-button.primary {
+  background-color: #1d4ed8;
+  color: #fff;
+}
+
+.icon-button.primary:hover {
+  background-color: #2563eb;
+}
+
+.icon-button.secondary {
+  background-color: #e5e7eb;
+  color: #1f2937;
+}
+
+.icon-button.secondary:hover {
+  background-color: #d1d5db;
+}
+
+.icon-button.destructive {
+  background-color: #dc2626;
+  color: #fff;
+}
+
+.icon-button.destructive:hover {
+  background-color: #b91c1c;
+}

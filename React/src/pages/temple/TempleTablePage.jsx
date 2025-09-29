@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Table from "../../components/ui/Table";
-import Button from "../../components/ui/Button";
 import Alert from "../../components/ui/Alert";
 import Dialog from "../../components/ui/Dialog";
 import Loader from "../../components/ui/Loader";
 import { apiGet, apiDelete } from "../../utils/helpers";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { FaEdit, FaTrash, FaTimes, FaPlus, FaList,FaEye } from "react-icons/fa";
+import IconButton from "../../components/ui/IconButton";
 
 function TempleTablePage() {
- 
   const columns = [
     { field: "id", label: "ID" },
     { field: "name", label: "Temple Name" },
@@ -25,13 +25,10 @@ function TempleTablePage() {
   const role = localStorage.getItem("role");
   const navigate = useNavigate();
 
-  // Fetch temples
   const fetchData = async () => {
     setLoading(true);
     try {
-      const res = await apiGet("/temples", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await apiGet("/temples", { headers: { Authorization: `Bearer ${token}` } });
       setData(res.data || res);
     } catch (err) {
       setAlert({ type: "error", message: "❌ Failed to fetch temples" });
@@ -44,10 +41,7 @@ function TempleTablePage() {
     fetchData();
   }, []);
 
-  // Navigate to edit
   const handleEdit = (item) => navigate(`/temples/edit/${item.id}`);
-
-  // Delete
   const handleDelete = (item) => setDeleteDialog({ open: true, item });
 
   const confirmDelete = async () => {
@@ -66,11 +60,12 @@ function TempleTablePage() {
 
   return (
     <div className="p-6">
-      <div className="header">
+      <div className="header" style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
         <h2>🏛️ Temple List</h2>
-        <Button className="add-btn">
-          <Link to="/temple">➕ Add Temple</Link>
-        </Button>
+        <div style={{ display: "flex", gap: "8px" }}>
+          <IconButton icon={FaPlus} label="Add Temple" to="/temple" />
+          <IconButton icon={FaList} label="Temple List" to="/temple-table" variant="secondary" />
+        </div>
       </div>
 
       {alert && <Alert type={alert.type} onClose={() => setAlert(null)}>{alert.message}</Alert>}
@@ -79,17 +74,19 @@ function TempleTablePage() {
         <Loader />
       ) : (
         <Table
-          columns={columns} // Show labels in table header
+          columns={columns}
           data={data}
           renderRowActions={(row) => (
-            <>
-              <Button variant="secondary" className="mr-2" onClick={() => handleEdit(row)}>Edit</Button>
-              {role === "super_admin" && (
-                <Button variant="destructive" onClick={() => handleDelete(row)}>Delete</Button>
-              )}
-            </>
+            <div style={{ display: "flex", gap: "6px" }}>
+              <IconButton icon={FaEdit} onClick={() => handleEdit(row)} variant="secondary" />
+                <IconButton 
+  icon={FaEye} 
+  onClick={() => navigate(`/temples/${row.id}/settings`)} 
+  variant="primary" 
+/>
+              {role === "super_admin" && <IconButton icon={FaTrash} onClick={() => handleDelete(row)} variant="destructive" />}
+            </div>
           )}
-          fieldMapping={columns.map(c => c.field)} // optional: map labels to data keys
         />
       )}
 
@@ -99,10 +96,11 @@ function TempleTablePage() {
         title="Confirm Delete"
         description={`Are you sure you want to delete "${deleteDialog.item?.name}"?`}
         actions={
-          <>
-            <Button onClick={() => setDeleteDialog({ open: false, item: null })}>Cancel</Button>
-            <Button variant="destructive" onClick={confirmDelete}>Delete</Button>
-          </>
+          <div style={{ display: "flex", gap: "6px" }}>
+            <IconButton icon={FaTimes} onClick={() => setDeleteDialog({ open: false, item: null })} variant="secondary" />
+            <IconButton icon={FaTrash} onClick={confirmDelete} variant="destructive" />
+           
+          </div>
         }
       />
     </div>

@@ -3,9 +3,13 @@ import { useSelector } from "react-redux";
 import Form from "../../components/ui/Form";
 import Alert from "../../components/ui/Alert";
 import { apiGet, apiPost } from "../../utils/helpers";
-import Button from "../../components/ui/Button";
-import {  Link } from "react-router-dom";
+// import Button from "../../components/ui/Button";
+// import {  Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import IconButton from "../../components/ui/IconButton";
+import { FaList } from "react-icons/fa";
 function AdminPage() {
+   const navigate = useNavigate();
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -73,12 +77,16 @@ function AdminPage() {
   return (
     <div className="p-6">
       {/* <h2 className="text-2xl font-bold mb-4">➕ Add Temple Admin</h2> */}
-      <div className="header">
+      {/* <div className="header">
         <h2>🏛️  Add Temple Admin </h2>
         <Button className="add-btn">
           <Link to="/admin-table">📋 Admin List</Link>
         </Button>
-      </div>
+      </div> */}
+      <div className="header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
+              <h2>🏛️ Add Admin</h2>
+              <IconButton icon={FaList} label="Admin List" onClick={() => navigate("/admin-table")} />
+            </div>
 
       {alert && (
                 <Alert type={alert.type} className="text-black" onClose={() => setAlert(null)}>

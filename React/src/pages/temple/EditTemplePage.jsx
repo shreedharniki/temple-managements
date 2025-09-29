@@ -2,32 +2,36 @@ import React, { useState, useEffect } from "react";
 import Form from "../../components/ui/Form";
 import Alert from "../../components/ui/Alert";
 import { apiGet, apiPut } from "../../utils/helpers";
-import { useParams, useNavigate, Link } from "react-router-dom";
-import Button from "../../components/ui/Button";
+import { useParams, useNavigate } from "react-router-dom";
+import IconButton from "../../components/ui/IconButton";
+import { FaList } from "react-icons/fa";
 
 function EditTemplePage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+
   const [form, setForm] = useState(null);
   const [loading, setLoading] = useState(true);
   const [alert, setAlert] = useState(null);
 
-  const token = localStorage.getItem("token");
-
   // Fetch temple by ID
   useEffect(() => {
     const fetchTemple = async () => {
+      setLoading(true);
       try {
         const res = await apiGet(`/temples/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setForm(res);
+        setForm(res.data || res);
       } catch (err) {
+        console.error("Failed to load temple:", err);
         setAlert({ type: "error", message: "❌ Failed to load temple" });
       } finally {
         setLoading(false);
       }
     };
+
     fetchTemple();
   }, [id, token]);
 
@@ -39,6 +43,11 @@ function EditTemplePage() {
 
   // Handle submit
   const handleSubmit = async () => {
+    if (!form.name || !form.location) {
+      setAlert({ type: "error", message: "❌ Please fill required fields" });
+      return;
+    }
+
     const { id: _id, created_at, ...updateData } = form;
 
     try {
@@ -56,25 +65,29 @@ function EditTemplePage() {
   if (loading) return <p>Loading...</p>;
   if (!form) return <p>No temple found</p>;
 
-  // Generate form fields dynamically, skip read-only fields
+  // Generate form fields dynamically (skip read-only)
   const fields = Object.keys(form)
     .filter((key) => key !== "id" && key !== "created_at")
-    .map((key) => ({ name: key, label: key.replace(/_/g, " ").toUpperCase() }));
+    .map((key) => ({
+      name: key,
+      label: key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()),
+    }));
 
   return (
-    <div className="p-6">
-      <div className="header">
+    <div className="p-6 max-w-xl mx-auto">
+      <div
+        className="header"
+        style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}
+      >
         <h2>🏛️ Edit Temple</h2>
-        <Button className="add-btn">
-          <Link to="/temple-table">🏛️ Temple List</Link>
-        </Button>
+        <IconButton
+          icon={FaList}
+          label="Temple List"
+          onClick={() => navigate("/temple-table")}
+        />
       </div>
 
-      {alert && (
-        <Alert type={alert.type} onClose={() => setAlert(null)}>
-          {alert.message}
-        </Alert>
-      )}
+      {alert && <Alert type={alert.type} onClose={() => setAlert(null)}>{alert.message}</Alert>}
 
       <Form
         fields={fields}

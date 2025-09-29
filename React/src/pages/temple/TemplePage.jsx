@@ -3,8 +3,9 @@ import { useSelector } from "react-redux";
 import Form from "../../components/ui/Form";
 import Alert from "../../components/ui/Alert";
 import { apiPost } from "../../utils/helpers";
-import { useNavigate, Link } from "react-router-dom";
-import Button from "../../components/ui/Button";
+import { useNavigate } from "react-router-dom";
+import IconButton from "../../components/ui/IconButton";
+import { FaList } from "react-icons/fa";
 
 function TemplePage() {
   const [form, setForm] = useState({ name: "", location: "", description: "" });
@@ -32,8 +33,6 @@ function TemplePage() {
       await apiPost("/temples", form);
       setAlert({ type: "success", message: "✅ Temple added successfully!" });
       setForm({ name: "", location: "", description: "" });
-      // Optional: redirect to temple list after adding
-      // setTimeout(() => navigate("/temple-table"), 1000);
     } catch (err) {
       console.error("Temple add error:", err);
       setAlert({ type: "error", message: "❌ Failed to add temple" });
@@ -46,18 +45,12 @@ function TemplePage() {
 
   return (
     <div className="p-6">
-      <div className="header">
+      <div className="header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
         <h2>🏛️ Add Temple</h2>
-        <Button className="add-btn">
-          <Link to="/temple-table">📋 Temple List</Link>
-        </Button>
+        <IconButton icon={FaList} label="Temple List" onClick={() => navigate("/temple-table")} />
       </div>
 
-      {alert && (
-        <Alert type={alert.type} onClose={() => setAlert(null)}>
-          {alert.message}
-        </Alert>
-      )}
+      {alert && <Alert type={alert.type} onClose={() => setAlert(null)}>{alert.message}</Alert>}
 
       <Form
         fields={fields}

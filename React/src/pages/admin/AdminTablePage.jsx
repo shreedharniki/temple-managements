@@ -1,8 +1,4 @@
 
-
-
-
-
 import React, { useState, useEffect } from "react";
 import Table from "../../components/ui/Table";
 import Button from "../../components/ui/Button";
@@ -10,8 +6,10 @@ import Alert from "../../components/ui/Alert";
 import Dialog from "../../components/ui/Dialog";
 import Loader from "../../components/ui/Loader";
 import { apiGet, apiDelete } from "../../utils/helpers";
-import { useNavigate,Link } from "react-router-dom";
-
+// import { useNavigate,Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { FaEdit, FaTrash, FaTimes, FaPlus, FaList,FaEye } from "react-icons/fa";
+import IconButton from "../../components/ui/IconButton";
 
 function AdminTablePage() {
  const columns = [
@@ -77,12 +75,20 @@ function AdminTablePage() {
   return (
     <div className="p-6">
       {/* <h2 className="text-2xl font-bold mb-4">📋 Admins List</h2> */}
-     <div className="header">
+     {/* <div className="header">
         <h2>🏛️  Add Temple Admin </h2>
         <Button className="add-btn">
           <Link to="/admin">📋 Add Temple Admin</Link>
         </Button>
-      </div>
+      </div> */}
+
+      <div className="header" style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
+              <h2>🏛️ Add Temple Admin</h2>
+              <div style={{ display: "flex", gap: "8px" }}>
+                <IconButton icon={FaPlus} label="Add Admin" to="/admin" />
+                <IconButton icon={FaList} label="Admin List" to="/admin-table" variant="secondary" />
+              </div>
+            </div>
       {alert && (
         <Alert type={alert.type} onClose={() => setAlert(null)}>
           {alert.message}
@@ -97,22 +103,22 @@ function AdminTablePage() {
           data={data}
           renderRowActions={(row) => (
             <>
-              <Button
+             <div style={{ display: "flex", gap: "6px" }}>
+              <IconButton icon={FaEdit}
                 variant="secondary"
                 className="mr-2"
                 onClick={() => handleEdit(row)}
-              >
-                Edit
-              </Button>
+              />
+               
 
               {role === "super_admin" && (
-                <Button
+                <IconButton icon={FaTrash}
                   variant="destructive"
                   onClick={() => handleDelete(row)}
-                >
-                  Delete
-                </Button>
+                />
+                
               )}
+              </div>
             </>
           )}
         />

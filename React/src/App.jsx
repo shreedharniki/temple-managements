@@ -19,6 +19,7 @@ import SevaTablePage from "./pages/SevaTablePage";
  import TemplePage from "./pages/temple/TemplePage";
  import TempleTablePage from "./pages/temple/TempleTablePage";
  import EditTemplePage from "./pages/temple/EditTemplePage";
+import ViewTempleSettings from "./pages/temple/ViewTempleSettings";
  import EditDevoteesPage from "./pages/devotees/EditDevoteesPage";
 
  import SevaBookingsPage from "./pages/sevabooking/SevaBookingPage"
@@ -60,6 +61,9 @@ function App() {
            <Route path="/temple" element={<TemplePage/>}/>
            <Route path="/temple-table" element={<TempleTablePage/>}/>
               <Route path="/temples/edit/:id" element={<EditTemplePage />} />
+              <Route path="/temples/:templeId/settings" element={<ViewTempleSettings />} />
+
+
             <Route path="/seva-bookings" element={<SevaBookingsPage/>}/>
              <Route path="/seva-bookings-table" element={<SevaBookingTablePage/>}/>
               <Route path="/seva-bookings/edit/:id" element={<EditSevaBookingPage/>}/>

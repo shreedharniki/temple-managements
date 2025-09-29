@@ -10,7 +10,8 @@ import LoginPage from "./pages/Auth/LoginPage";
  import AdminTablePage from "./pages/admin/AdminTablePage";
  import EditAdminPage from "./pages/admin/EditAdminPage";
  import DevoteesPage from "./pages/devotees/DevoteesPage";
- import DonationPage from "./pages/DonationPage";
+ import DonationPage from "./pages/donation/DonationPage";
+ 
  import DevoteesTablePage from "./pages/devotees/DevoteesTablePage"
  import SettingsPage from "./pages/Settingspage";
  import SevaPage from "./pages/SevaPage";
@@ -26,6 +27,8 @@ import SevaTablePage from "./pages/SevaTablePage";
  import DeityPage from "./pages/DeityPage"
 
 import DeityTablePage from "./pages/DeityTablePage";
+import DonationTablePage from "./pages/donation/DonationTablePage";
+import EditDonationPage from "./pages/donation/EditDonationPage";
 
 
 function App() {
@@ -49,6 +52,8 @@ function App() {
         <Route path="/devotees" element={<DevoteesPage />} />
        <Route path="/devotees-table" element={<DevoteesTablePage />} />
         <Route path="/donation" element={<DonationPage/>}/>
+        <Route path="/donation-table" element={<DonationTablePage />} />
+        <Route path="/donation/edit/:id"element={<EditDonationPage/>} />
          <Route path="/settings" element={< SettingsPage/>}/>
           <Route path="/seva" element={<SevaPage/>}/>
           <Route path="/seva-table" element={<SevaTablePage/>}/>

@@ -156,7 +156,7 @@ function Sidebar() {
         </div> */}
 
         {/* Other single links */}
-        <Link to="/donation" className="sidebar-link">
+        <Link to="/donation-table" className="sidebar-link">
           Donation
         </Link>
       </nav>

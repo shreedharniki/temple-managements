@@ -89,11 +89,12 @@ function AdminTablePage() {
                 <IconButton icon={FaList} label="Admin List" to="/admin-table" variant="secondary" />
               </div>
             </div>
-      {alert && (
+      {/* {alert && (
         <Alert type={alert.type} onClose={() => setAlert(null)}>
           {alert.message}
         </Alert>
-      )}
+      )} */}
+       {alert && <Alert type={alert.type} message={alert.message} className="text-black" />}
 
       {loading ? (
         <Loader />

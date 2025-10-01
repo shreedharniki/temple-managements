@@ -1,45 +1,26 @@
 import React, { useState, useEffect } from "react";
 import Form from "../../components/ui/Form";
 import Alert from "../../components/ui/Alert";
-import { apiGet, apiPost } from "../../utils/helpers";
-import { useNavigate,Link } from "react-router-dom";
 import Button from "../../components/ui/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDevotees, addDevotee, clearAlert } from "../../store/devoteesSlice";
+import { useNavigate, Link } from "react-router-dom";
 
 function DevoteesPage() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { list, loading, error, success } = useSelector((state) => state.devotees);
+
   const [form, setForm] = useState({
-    first_name: "",
-    last_name: "",
-    gothra: "",
-    nakshatra: "",
-    rashi: "",
-    date_of_birth: "",
-    date_of_marriage: "",
-    email: "",
-    mobile: "",
-    mobile_alternate: "",
-    address1: "",
-    address2: "",
-    city: "",
-    state: "",
-    country: "",
-    pincode: "",
+    first_name: "", last_name: "", gothra: "", nakshatra: "", rashi: "",
+    date_of_birth: "", date_of_marriage: "", email: "", mobile: "",
+    mobile_alternate: "", address1: "", address2: "", city: "", state: "",
+    country: "", pincode: ""
   });
-  const [alert, setAlert] = useState(null);
-  const [devotees, setDevotees] = useState([]);
-  const token = localStorage.getItem("token");
-const navigate = useNavigate();
-  // Fetch existing devotees
+
   useEffect(() => {
-    const fetchDevotees = async () => {
-      try {
-        const res = await apiGet("/devotees", { headers: { Authorization: `Bearer ${token}` } });
-        setDevotees(res.data || res);
-      } catch (err) {
-        console.error("Failed to fetch devotees:", err);
-      }
-    };
-    fetchDevotees();
-  }, [token]);
+    dispatch(fetchDevotees());
+  }, [dispatch]);
 
   const fields = [
     { name: "first_name", label: "First Name", placeholder: "Enter first name" },
@@ -62,48 +43,30 @@ const navigate = useNavigate();
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (!form.first_name || !form.last_name || !form.email || !form.mobile) {
-      setAlert({ type: "error", message: "❌ Please fill all required fields" });
-      return;
+      return alert("❌ Please fill all required fields");
     }
-
-    try {
-      await apiPost("/devotees", form, { headers: { Authorization: `Bearer ${token}` } });
-      setAlert({ type: "success", message: "✅ Devotee added successfully!" });
-      setForm({
-        first_name: "", last_name: "", gothra: "", nakshatra: "", rashi: "",
-        date_of_birth: "", date_of_marriage: "", email: "", mobile: "",
-        mobile_alternate: "", address1: "", address2: "", city: "", state: "",
-        country: "", pincode: ""
-      });
-
-      const res = await apiGet("/devotees", { headers: { Authorization: `Bearer ${token}` } });
-      setDevotees(res.data || res);
-    } catch (err) {
-      console.error("Failed to add devotee:", err);
-      setAlert({ type: "error", message: "❌ Failed to add devotee" });
-    }
+    dispatch(addDevotee(form));
+    setForm({
+      first_name: "", last_name: "", gothra: "", nakshatra: "", rashi: "",
+      date_of_birth: "", date_of_marriage: "", email: "", mobile: "",
+      mobile_alternate: "", address1: "", address2: "", city: "", state: "",
+      country: "", pincode: ""
+    });
   };
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">➕ Add Devotee</h2>
-      <div className="header">
-                    <h2>🏛️ ➕ Add Devotee</h2>
-                        <Button  className="add-btn"><Link to="/devotees-table">Devotee List</Link></Button>
-                    
-                  </div>
+      <div className="header flex justify-between items-center mb-4">
+        <h2 className="text-2xl font-bold">➕ Add Devotee</h2>
+        <Button className="add-btn"><Link to="/devotees-table">Devotee List</Link></Button>
+      </div>
 
-      {alert && (
-        <Alert type={alert.type} onClose={() => setAlert(null)}>
-          {alert.message}
-        </Alert>
-      )}
+      {error && <Alert type="error" onClose={() => dispatch(clearAlert())}>{error}</Alert>}
+      {success && <Alert type="success" onClose={() => dispatch(clearAlert())}>{success}</Alert>}
 
       <Form fields={fields} values={form} onChange={handleChange} onSubmit={handleSubmit} submitLabel="Save Devotee" />
-
-      
     </div>
   );
 }

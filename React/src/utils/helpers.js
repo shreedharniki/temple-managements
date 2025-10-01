@@ -12,7 +12,12 @@ export function formatDate(date) {
   });
 }
 
-// ✅ Centralized axios instance
+/**
+ * ✅ Centralized axios instance
+ * - Base URL for API
+ * - Content-Type JSON by default
+ * - Automatically attaches token
+ */
 const api = axios.create({
   baseURL: "http://localhost:3001/api",
   //  baseURL: "https://tms.codemythought.com/api",
@@ -22,6 +27,7 @@ const api = axios.create({
 });
 
 // ✅ Request interceptor → attach token
+
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");

@@ -1,7 +1,4 @@
 
-
-
-
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Sidebar.css";
@@ -76,6 +73,7 @@ function Sidebar() {
         )}
 
         {/* 🔽 Devotees */}
+         {role === "admin" && (
         <div>
           <button
             className="sidebar-link submenu-toggle"
@@ -94,9 +92,10 @@ function Sidebar() {
             </div>
           )}
         </div>
-
+ )}
         {/* 🔽 Seva */}
-        {/* <div>
+      {role === "admin" && (
+        <div>
           <button
             className="sidebar-link submenu-toggle"
             onClick={() => toggleSubMenu("seva")}
@@ -113,9 +112,10 @@ function Sidebar() {
               </Link>
             </div>
           )}
-        </div> */}
-
+        </div>
+      )}
         {/* 🔽 Seva Bookings */}
+         {role === "admin" && (
         <div>
           <button
             className="sidebar-link submenu-toggle"
@@ -134,9 +134,10 @@ function Sidebar() {
             </div>
           )}
         </div>
-
+         )}
         {/* 🔽 Deity */}
-        {/* <div>
+              {role === "admin" && (
+        <div>
           <button
             className="sidebar-link submenu-toggle"
             onClick={() => toggleSubMenu("deity")}
@@ -153,15 +154,19 @@ function Sidebar() {
               </Link>
             </div>
           )}
-        </div> */}
+        </div>
+              )}
 
         {/* Other single links */}
+         {role === "admin" && (
         <Link to="/donation-table" className="sidebar-link">
           Donation
         </Link>
+         )}
       </nav>
     </aside>
   );
 }
 
 export default Sidebar;
+

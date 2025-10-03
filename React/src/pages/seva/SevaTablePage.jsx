@@ -15,8 +15,7 @@ function SevaTablePage() {
     { field: "name", label: "Seva Name" },
     { field: "description", label: "Seva Description" },
     { field: "amount", label: "Amount" },
-    { field: "token", label: "Token" },
-    { field: "special", label: "Special" },
+   
     { field: "seats", label: "Seats" },
     { field: "maxlimit", label: "Max Limit" },
   ];

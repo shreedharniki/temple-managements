@@ -93,27 +93,12 @@ function Sidebar() {
           )}
         </div>
  )}
-        {/* 🔽 Seva */}
-      {role === "admin" && (
-        <div>
-          <button
-            className="sidebar-link submenu-toggle"
-            onClick={() => toggleSubMenu("seva")}
-          >
-            Seva {openSubMenu === "seva" ? "▴" : "▾"}
-          </button>
-          {openSubMenu === "seva" && (
-            <div className="sidebar-submenu">
-              <Link to="/seva" className="sidebar-sublink">
-                Seva Form
-              </Link>
-              <Link to="/seva-table" className="sidebar-sublink">
-                Seva Table
-              </Link>
-            </div>
-          )}
-        </div>
-      )}
+       {/* Other single links */}
+         {role === "admin" && (
+        <Link to="/donation-table" className="sidebar-link">
+          Donation
+        </Link>
+         )}
         {/* 🔽 Seva Bookings */}
          {role === "admin" && (
         <div>
@@ -156,13 +141,27 @@ function Sidebar() {
           )}
         </div>
               )}
+                {/* 🔽 Seva */}
+      {role === "admin" && (
+        <div>
+          <button
+            className="sidebar-link submenu-toggle"
+            onClick={() => toggleSubMenu("seva")}
+          >
+            Seva {openSubMenu === "seva" ? "▴" : "▾"}
+          </button>
+          {openSubMenu === "seva" && (
+            <div className="sidebar-submenu">
+              
+              <Link to="/seva-table" className="sidebar-sublink">
+                Seva Table
+              </Link>
+            </div>
+          )}
+        </div>
+      )}
 
-        {/* Other single links */}
-         {role === "admin" && (
-        <Link to="/donation-table" className="sidebar-link">
-          Donation
-        </Link>
-         )}
+       
 
           {role === "admin" && (
         <Link to="/donation-type-table" className="sidebar-link">

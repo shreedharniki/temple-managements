@@ -10,13 +10,23 @@ const SevaController = {
     }
   },
 
+  getSevaById: async (req, res) => {
+    try {
+      const seva = await SevaModel.getById(req.params.id);
+      if (!seva) return res.status(404).json({ error: "Seva not found" });
+      res.json(seva);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  },
+
   createSeva: async (req, res) => {
     try {
-      const { name, description, amount, maxlimit, seats, calendar, is_active } = req.body;
-      if (!name || !amount || !maxlimit || !seats) {
+      const { name, amount, seats, maxlimit, temple_id, description } = req.body;
+      if (!name || !amount || !seats || !maxlimit || !temple_id)
         return res.status(400).json({ error: "Required fields missing" });
-      }
-      const result = await SevaModel.create({ name, description, amount, maxlimit, seats, calendar, is_active });
+
+      const result = await SevaModel.create({ name, description, amount, seats, maxlimit, temple_id });
       res.status(201).json({ message: "Seva created", id: result.insertId });
     } catch (err) {
       res.status(500).json({ error: err.message });
@@ -25,7 +35,11 @@ const SevaController = {
 
   updateSeva: async (req, res) => {
     try {
-      await SevaModel.update(req.params.id, req.body);
+      const { name, amount, seats, maxlimit, temple_id, description } = req.body;
+      if (!name || !amount || !seats || !maxlimit || !temple_id)
+        return res.status(400).json({ error: "Required fields missing" });
+
+      await SevaModel.update(req.params.id, { name, description, amount, seats, maxlimit, temple_id });
       res.json({ message: "Seva updated" });
     } catch (err) {
       res.status(500).json({ error: err.message });

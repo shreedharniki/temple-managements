@@ -30,7 +30,7 @@ import Dashboard from "./pages/Dashboard";
 // change password
 import ChangePassword from "./pages/ChangePassword";
 // setting
-import SettingsPage from "./pages/Settingspage";
+import SettingsPage from "./pages/settings/Settingspage";
 // profile
 import Profile from "./pages/Profile";
 // admin
@@ -61,16 +61,18 @@ import ViewTempleSettings from "./pages/temple/ViewTempleSettings";
 import DonationTablePage from "./pages/donation/DonationTablePage";
 import EditDonationPage from "./pages/donation/EditDonationPage";
 // detiy
- import DeityPage from "./pages/DeityPage"
-import DeityTablePage from "./pages/DeityTablePage";
+import DeityTablePage from "./pages/deity/DeityTablePage";
+import DeityPage from "./pages/deity/DeityPage";
+import EditDeityPage from "./pages/deity/EditDeityPage";
 // SevaBookings
  import SevaBookingsPage from "./pages/sevabooking/SevaBookingPage"
  import SevaBookingTablePage from "./pages/sevabooking/SevaBookingTablePage";
  import EditSevaBookingPage from "./pages/sevabooking/EditSevaBookingPage";
 
 // seva
-import SevaPage from "./pages/SevaPage";
-import SevaTablePage from "./pages/SevaTablePage";
+import SevaPage from "./pages/seva/SevaPage";
+import SevaTablePage from "./pages/seva/SevaTablePage";
+import EditSevaPage from "./pages/seva/EditSevaPage";
 
 
 function App() {
@@ -97,15 +99,18 @@ function App() {
             <Route path="/donation/edit/:id"element={<EditDonationPage/>} />
 
 
-                     <Route path="/seva-bookings" element={<SevaBookingsPage/>}/>
+            <Route path="/seva-bookings" element={<SevaBookingsPage/>}/>
             <Route path="/seva-bookings-table" element={<SevaBookingTablePage/>}/>
               <Route path="/seva-bookings/edit/:id" element={<EditSevaBookingPage/>}/>
 
             <Route path="/deity" element={<DeityPage/>}/>
             <Route path="/deity-table" element={<DeityTablePage/>}/>
+            <Route path="deity/edit/:id" element={<EditDeityPage/>} />
 
              <Route path="/seva" element={<SevaPage/>}/>
            <Route path="/seva-table" element={<SevaTablePage/>}/>
+           <Route path="/seva/edit/:id" element={<EditSevaPage/>}/>
+
 
 
         </Route>

@@ -60,6 +60,12 @@ import ViewTempleSettings from "./pages/temple/ViewTempleSettings";
  import DonationPage from "./pages/donation/DonationPage";
 import DonationTablePage from "./pages/donation/DonationTablePage";
 import EditDonationPage from "./pages/donation/EditDonationPage";
+
+// donation type
+
+import DonationTypeTablePage from "./pages/donation/DonationTypeTablePage";
+import DonationTypePage from "./pages/donation/DonationTypePage";
+import EditDonationTypePage from "./pages/donation/EditDonationTypePage";
 // detiy
 import DeityTablePage from "./pages/deity/DeityTablePage";
 import DeityPage from "./pages/deity/DeityPage";
@@ -98,6 +104,10 @@ function App() {
             <Route path="/donation-table" element={<DonationTablePage />} />
             <Route path="/donation/edit/:id"element={<EditDonationPage/>} />
 
+
+            <Route path="/donation-type-table" element={<DonationTypeTablePage/>}/>
+               <Route path="/donationtype" element={<DonationTypePage/>}/>
+               <Route path="/donationtype/edit/:id" element={<EditDonationTypePage/>} />
 
             <Route path="/seva-bookings" element={<SevaBookingsPage/>}/>
             <Route path="/seva-bookings-table" element={<SevaBookingTablePage/>}/>

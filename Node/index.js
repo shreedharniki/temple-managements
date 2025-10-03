@@ -15,6 +15,8 @@ const settingsRoutes = require("./routes/settingsRoutes");
 const deityRoutes = require("./routes/deityRoutes");
 const sevaRoutes = require("./routes/sevaRoutes");
 const sevaBookingRoutes = require("./routes/sevaBookingRoutes");
+
+const donationTypeRoutes = require("./routes/donationTypeRoutes");
 // app.use(cors());
 
 app.use(cors(
@@ -45,6 +47,7 @@ app.use("/api/deity", deityRoutes);
 
 app.use("/api/seva", sevaRoutes);
 app.use("/api/bookings", sevaBookingRoutes);
+app.use("/api/donationtype", donationTypeRoutes);
 app.get("/", (req, res) => res.json({ status: "ok" }));
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

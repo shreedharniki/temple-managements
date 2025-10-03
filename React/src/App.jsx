@@ -32,7 +32,7 @@ import ChangePassword from "./pages/ChangePassword";
 // setting
 import SettingsPage from "./pages/settings/Settingspage";
 // profile
-import Profile from "./pages/Profile";
+import Profile from "./pages/profile/Profile";
 // admin
 import AdminPage from "./pages/admin/AdminPage";
 import AdminTablePage from "./pages/admin/AdminTablePage";

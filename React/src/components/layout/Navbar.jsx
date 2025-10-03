@@ -46,7 +46,7 @@ function Navbar() {
         {open && (
           <div className="dropdown">
             <Link to="/profile" className="dropdown-item">
-              Edit Profile
+               Profile
             </Link>
             <Link to="/change-password" className="dropdown-item">
               Change Password

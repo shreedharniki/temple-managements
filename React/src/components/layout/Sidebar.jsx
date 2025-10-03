@@ -131,9 +131,9 @@ function Sidebar() {
           </button>
           {openSubMenu === "deity" && (
             <div className="sidebar-submenu">
-              <Link to="/deity" className="sidebar-sublink">
+              {/* <Link to="/deity" className="sidebar-sublink">
                 Deity Form
-              </Link>
+              </Link> */}
               <Link to="/deity-table" className="sidebar-sublink">
                 Deity Table
               </Link>

@@ -169,6 +169,13 @@ function Sidebar() {
           Donation Type
         </Link>
          )}
+
+         
+          {role === "admin" && (
+        <Link to="/user-type-table" className="sidebar-link">
+       User Type
+        </Link>
+         )}
       </nav>
     </aside>
   );

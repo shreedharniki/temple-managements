@@ -38,6 +38,10 @@ import AdminPage from "./pages/admin/AdminPage";
 import AdminTablePage from "./pages/admin/AdminTablePage";
 import EditAdminPage from "./pages/admin/EditAdminPage";
 
+import UserTypeTablePage from "./pages/admin/UserTypeTablePage";
+import UserTypePage from "./pages/admin/UserTypePage";
+import EditUserTypePage from "./pages/admin/EditUserTypePage";
+
 // devotees
 import DevoteesPage from "./pages/devotees/DevoteesPage";
  import EditDevoteesPage from "./pages/devotees/EditDevoteesPage";
@@ -94,8 +98,10 @@ function App() {
 
         {/* Admin + Super Admin routes */}
         <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
-         
-          <Route path="/devotees" element={<DevoteesPage />} />
+         <Route path="/user-type-table" element={<UserTypeTablePage/>} />
+         <Route path="/usertype" element={<UserTypePage/>}/>  
+         <Route path="usertype/edit/:id" element={<EditUserTypePage/>} />      
+           <Route path="/devotees" element={<DevoteesPage />} />
           <Route path="/devotee/edit/:id" element={<EditDevoteesPage/>} />
           <Route path="/devotees-table" element={<DevoteesTablePage />} />
 

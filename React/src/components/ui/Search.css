@@ -1,0 +1,32 @@
+.search-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 300px; /* limits the width */
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 14px 10px 40px; /* extra left padding for the icon */
+  border: 1px solid #d1d5db; /* gray border */
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.search-input:focus {
+  border-color: #3b82f6; /* blue focus */
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Icon inside input */
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af; /* gray icon */
+  pointer-events: none;
+  font-size: 16px;
+}

@@ -6,6 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchDevotees, addDevotee, clearAlert } from "../../store/devoteesSlice";
 import { useNavigate, Link } from "react-router-dom";
 
+import IconButton from "../../components/ui/IconButton";
+import { FaList } from "react-icons/fa";
+
 function DevoteesPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -58,9 +61,10 @@ function DevoteesPage() {
 
   return (
     <div className="p-6">
-      <div className="header flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold">➕ Add Devotee</h2>
-        <Button className="add-btn"><Link to="/devotees-table">Devotee List</Link></Button>
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
+        <h2 >➕ Add Devotee</h2>
+        {/* <Button className="add-btn"><Link to="/devotees-table">Devotee List</Link></Button> */}
+                <IconButton icon={FaList} label="Devotee List" onClick={() => navigate("/devotees-table")} />
       </div>
 
       {error && <Alert type="error" onClose={() => dispatch(clearAlert())}>{error}</Alert>}

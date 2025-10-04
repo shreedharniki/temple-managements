@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Form from "../../components/ui/Form";
-// import Alert from "../../components/ui/Alert";
+import Alert from "../../components/ui/Alert"; // ✅ restored
 import Loader from "../../components/ui/Loader";
-import Button from "../../components/ui/Button";
 import { apiGet, apiPut } from "../../utils/helpers";
+import { FaPlus, FaList } from "react-icons/fa";
+import IconButton from "../../components/ui/IconButton";
 
 function EditDonationPage() {
   const { id } = useParams();
@@ -18,7 +19,7 @@ function EditDonationPage() {
   const [loading, setLoading] = useState(true);
   const [alert, setAlert] = useState(null);
 
-  // Fetch donation & dropdowns
+  // Fetch donation + dropdowns
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
@@ -31,7 +32,10 @@ function EditDonationPage() {
       setForm(donationRes.data || donationRes);
 
       setTemples(
-        (templeRes.data || templeRes).map((t) => ({ value: t.id, label: t.name }))
+        (templeRes.data || templeRes).map((t) => ({
+          value: t.id,
+          label: t.name,
+        }))
       );
 
       setDevotees(
@@ -77,12 +81,13 @@ function EditDonationPage() {
       });
 
       setAlert({ type: "success", message: "✅ Donation updated successfully" });
-      setTimeout(() => navigate("/donation-table"),  2000);
+      setTimeout(() => navigate("/donation-table"), 2000);
     } catch (err) {
       console.error("Donation update error:", err.response || err);
-      const message =
-        err.response?.data?.error || err.message || "❌ Failed to update donation";
-      setAlert({ type: "error", message });
+      setAlert({
+        type: "error",
+        message: err.response?.data?.error || err.message || "❌ Failed to update donation",
+      });
     }
   };
 
@@ -117,20 +122,24 @@ function EditDonationPage() {
   ];
 
   return (
-    <div className="p-6 max-w-xl mx-auto">
-      <div className="header flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold">✏️ Edit Donation</h2>
-        <Button>
-          <Link to="/donations-table">Donation List</Link>
-        </Button>
+    <div className="p-6">
+      {/* Header */}
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
+        <h2 >✏️ Edit Donation</h2>
+        <div className="flex gap-2">
+          <IconButton icon={FaPlus} label="Add Donation" to="/donation" />
+          <IconButton icon={FaList} label="Donation List" to="/donation-table" variant="secondary" />
+        </div>
       </div>
 
+      {/* Alert */}
       {alert && (
         <Alert type={alert.type} onClose={() => setAlert(null)}>
           {alert.message}
         </Alert>
       )}
 
+      {/* Form */}
       <Form
         fields={fields}
         values={form}

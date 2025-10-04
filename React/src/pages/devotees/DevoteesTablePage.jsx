@@ -5,6 +5,8 @@ import Alert from "../../components/ui/Alert";
 import Dialog from "../../components/ui/Dialog";
 import Loader from "../../components/ui/Loader";
 import { useNavigate, Link } from "react-router-dom";
+import { FaEdit, FaTrash, FaPlus, FaList } from "react-icons/fa";
+import IconButton from "../../components/ui/IconButton";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDevotees, deleteDevotee, clearAlert } from "../../store/devoteesSlice";
 
@@ -13,6 +15,8 @@ function DevoteesTablePage() {
   const navigate = useNavigate();
   const { list, loading, error, success } = useSelector((state) => state.devotees);
   const [dialog, setDialog] = useState({ open: false, item: null });
+    const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
 
   useEffect(() => {
     dispatch(fetchDevotees());
@@ -39,9 +43,14 @@ function DevoteesTablePage() {
 
   return (
     <div className="p-6">
-      <div className="header flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold">🙏 Devotees</h2>
-        <Button><Link to="/devotees">+ Add Devotee</Link></Button>
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
+        <h2 >🙏 Devotees</h2>
+         <div style={{ display: "flex", gap: "8px" }}>
+           <IconButton icon={FaPlus} label="Add Devotee" to="/devotees" />
+                    <IconButton icon={FaList} label="Devotee List" to="/devotees-table" variant="secondary" />
+         
+         </div>
+        
       </div>
 
       {error && <Alert type="error" onClose={() => dispatch(clearAlert())}>{error}</Alert>}
@@ -53,8 +62,14 @@ function DevoteesTablePage() {
           data={list}
           renderRowActions={(row) => (
             <>
-              <Button variant="secondary" onClick={() => handleEdit(row)}>Edit</Button>
-              <Button variant="destructive" onClick={() => handleDelete(row)}>Delete</Button>
+            <div style={{ display: "flex", gap: "6px" }}>
+              {/* <Button variant="secondary" onClick={() => handleEdit(row)}>Edit</Button> */}
+                <IconButton icon={FaEdit} variant="secondary" onClick={() => handleEdit(row)} />
+                   {role === "admin" && (
+               
+                <IconButton icon={FaTrash} variant="destructive" onClick={() => handleDelete(row)} />
+              )}
+              </div>
             </>
           )}
         />

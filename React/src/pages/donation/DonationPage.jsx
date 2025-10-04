@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Button from "../../components/ui/Button";
-// import Alert from "../../components/ui/Alert";
+import Alert from "../../components/ui/Alert"; // ✅ make sure it's imported
 import Loader from "../../components/ui/Loader";
 import Form from "../../components/ui/Form";
-import { apiGet, apiPost, apiPut } from "../../utils/helpers";
+import { apiGet, apiPost } from "../../utils/helpers";
+import IconButton from "../../components/ui/IconButton";
+import { FaList } from "react-icons/fa";
+
 
 function DonationPage() {
   const navigate = useNavigate();
-  const { id } = useParams();
   const token = localStorage.getItem("token");
 
   const [form, setForm] = useState({
@@ -26,11 +28,10 @@ function DonationPage() {
   const [temples, setTemples] = useState([]);
   const [devotees, setDevotees] = useState([]);
 
-  // Fetch options + donation (if editing)
+  // Fetch dropdown data (temples + devotees)
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Devotees
         const devoteeRes = await apiGet("/devotees", {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -41,7 +42,6 @@ function DonationPage() {
           }))
         );
 
-        // Temples
         const templeRes = await apiGet("/temples", {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -51,23 +51,14 @@ function DonationPage() {
             label: t.name,
           }))
         );
-
-        // Donation (if edit mode)
-        if (id) {
-          setLoading(true);
-          const donationRes = await apiGet(`/donations/${id}`);
-          setForm(donationRes.data || donationRes);
-        }
       } catch (err) {
         console.error("Failed to load data", err);
         setAlert({ type: "error", message: "❌ Failed to load donation form" });
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchData();
-  }, [id, token]);
+  }, [token]);
 
   // Form fields
   const fields = [
@@ -104,26 +95,19 @@ function DonationPage() {
 
   const handleSubmit = async () => {
     try {
-      if (id) {
-        await apiPut(`/donations/${id}`, form, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setAlert({ type: "success", message: "✅ Donation updated successfully!" });
-      } else {
-        await apiPost("/donations", form, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setAlert({ type: "success", message: "✅ Donation added successfully!" });
-        setForm({
-          amount: "",
-          payment_method: "cash",
-          remarks: "",
-          temple_id: "",
-          user_id: "",
-        });
-      }
+      await apiPost("/donations", form, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setAlert({ type: "success", message: "✅ Donation added successfully!" });
+      setForm({
+        amount: "",
+        payment_method: "cash",
+        remarks: "",
+        temple_id: "",
+        user_id: "",
+      });
 
-      setTimeout(() => navigate("/donations"), 1000);
+      setTimeout(() => navigate("/donation-table"), 1000);
     } catch (err) {
       console.error("Donation API Error:", err.response || err);
       setAlert({
@@ -135,13 +119,11 @@ function DonationPage() {
 
   return (
     <div className="p-6">
-      <div className="header flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold">
-          {id ? "✏️ Edit Donation" : "➕ Add Donation"}
-        </h2>
-        <Button>
-          <Link to="/donation-table">Donation List</Link>
-        </Button>
+       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
+     
+        <h2 >➕ Add Donation</h2>
+         <IconButton icon={FaList} label="Donation List" onClick={() => navigate("/donation-table")} />
+       
       </div>
 
       {alert && (
@@ -158,7 +140,7 @@ function DonationPage() {
           values={form}
           onChange={handleChange}
           onSubmit={handleSubmit}
-          submitLabel={id ? "Update Donation" : "Create Donation"}
+          submitLabel="Create Donation"
         />
       )}
     </div>

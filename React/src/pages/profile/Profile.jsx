@@ -1,75 +1,55 @@
+import React, { useEffect, useState } from "react";
+import { apiGet } from "../../utils/helpers";
 import "./Profile.css";
 
-import Temple1 from "../../assets/images/temples/1.webp";
-import Temple2 from "../../assets/images/temples/2.webp";
-import Temple3 from "../../assets/images/temples/3.jpg";
-import Temple4 from "../../assets/images/temples/4.webp";
+export default function TempleSettingsList() {
+  const [settings, setSettings] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-export default function Profile() {
-  const templeProfile = {
-    name: "Krishna Mandir",
-    location: "Bidar, Karnataka",
-    description: "Historic Krishna temple with daily prayers and grand celebrations during Janmashtami.",
-    established: "1985-06-15",
-    phone: "+91 9876543210",
-    email: "krishna@temple.com",
-    website: "https://krishnamandir.bidar",
-    mainDeity: "Lord Krishna",
-    otherDeities: ["Radha", "Hanuman", "Ganesh"], 
-    timings: "6:00 AM - 8:00 PM",
-    festivals: ["Janmashtami", "Diwali", "Holi"],
-    trust: "Krishna Trust",
-    adminAssigned: "Shreedhar Pawar",
-    donationDetails: {
-      accountNumber: "1234567890",
-      ifsc: "KRIS0001234",
-      upi: "krishna@upi",
-    },
-    images: [
-      Temple1,
-   Temple2,
-   Temple3,
-   Temple4,
-    ],
-    descriptionDetails: {
-      architecture: "South Indian style with intricate carvings and gold-plated sanctum.",
-      history: "Built in 1985 by Krishna Trust to promote spiritual activities in Bidar.",
-      activities: ["Daily Aarti", "Bhajan sessions", "Community service events"],
-    },
-  };
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const res = await apiGet("/settings"); // GET all settings
+        setSettings(res.data || res);
+      } catch (err) {
+        console.error("❌ Failed to fetch temple settings", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSettings();
+  }, []);
+
+  if (loading) return <p>⏳ Loading temple settings...</p>;
+  if (settings.length === 0) return <p>❌ No temple settings found</p>;
 
   return (
     <div className="profile-container">
-      <h2 className="profile-title">🏛️ {templeProfile.name}</h2>
-      <p className="profile-description">{templeProfile.description}</p>
+      <h2 className="profile-title">🏛️ All Temple Settings</h2>
 
-      <div className="profile-grid">
-        <div><strong>Location:</strong> {templeProfile.location}</div>
-        <div><strong>Established:</strong> {templeProfile.established}</div>
-        <div><strong>Phone:</strong> {templeProfile.phone}</div>
-        <div><strong>Email:</strong> {templeProfile.email}</div>
-        <div><strong>Website:</strong> <a href={templeProfile.website} target="_blank">{templeProfile.website}</a></div>
-        <div><strong>Trust:</strong> {templeProfile.trust}</div>
-        <div><strong>Admin:</strong> {templeProfile.adminAssigned}</div>
-        <div><strong>Timings:</strong> {templeProfile.timings}</div>
-        <div><strong>Main Deity:</strong> {templeProfile.mainDeity}</div>
-        <div><strong>Other Deities:</strong> {templeProfile.otherDeities.join(", ")}</div>
-        <div><strong>Festivals:</strong> {templeProfile.festivals.join(", ")}</div>
-        <div><strong>Donation UPI:</strong> {templeProfile.donationDetails.upi}</div>
-        <div><strong>Account No:</strong> {templeProfile.donationDetails.accountNumber}</div>
-        <div><strong>IFSC:</strong> {templeProfile.donationDetails.ifsc}</div>
-      </div>
-
-      <div className="profile-section">
-        <h3>🏗️ Architecture & History</h3>
-        <p><strong>Architecture:</strong> {templeProfile.descriptionDetails.architecture}</p>
-        <p><strong>History:</strong> {templeProfile.descriptionDetails.history}</p>
-        <p><strong>Activities:</strong> {templeProfile.descriptionDetails.activities.join(", ")}</p>
-      </div>
-
-      <div className="profile-gallery">
-        {templeProfile.images.map((img, index) => (
-          <img key={index} src={img} alt={`Temple ${index}`} />
+      <div className="settings-list">
+        {settings.map((temple) => (
+          <div key={temple.temple_id} className="profile-grid">
+            <h3>Temple ID: {temple.temple_id}</h3>
+            {temple.logo && <img src={temple.logo} alt="Temple Logo" className="temple-logo" />}
+            <div><strong>Founded Year:</strong> {temple.founded_year}</div>
+            <div><strong>Phone:</strong> {temple.phone}</div>
+            <div><strong>Email:</strong> {temple.email}</div>
+            <div><strong>Address:</strong> {temple.address}</div>
+            <div><strong>Color Theme:</strong> <span style={{ color: temple.color_theme }}>{temple.color_theme}</span></div>
+            <div><strong>Sidebar:</strong> {temple.sidebar ? "Enabled" : "Disabled"}</div>
+            <div><strong>Navbar:</strong> {temple.navbar ? "Enabled" : "Disabled"}</div>
+            {temple.map && (
+              <div>
+                <strong>Map:</strong>{" "}
+                <a href={temple.map} target="_blank" rel="noreferrer">
+                  View Location
+                </a>
+              </div>
+            )}
+            <hr />
+          </div>
         ))}
       </div>
     </div>

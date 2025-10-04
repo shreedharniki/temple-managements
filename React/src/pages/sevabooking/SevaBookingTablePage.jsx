@@ -6,6 +6,8 @@ import Dialog from "../../components/ui/Dialog";
 import Loader from "../../components/ui/Loader";
 import { apiGet, apiPut, apiDelete } from "../../utils/helpers"; 
 import { useNavigate, Link } from "react-router-dom";
+import { FaEdit, FaTrash, FaPlus, FaList,FaTimes } from "react-icons/fa";
+import IconButton from "../../components/ui/IconButton";
 import "./sevabooking.css";
 
 function SevaBookingTablePage() {
@@ -91,11 +93,16 @@ function SevaBookingTablePage() {
 
   return (
     <div className="p-6">
-      <div className="header">
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
         <h2>📋 Seva Bookings</h2>
-        <Button className="add-btn">
+         <div style={{ display: "flex", gap: "8px" }}>
+         {/* <Button className="add-btn">
           <Link to="/seva-bookings">➕ Add Seva Booking</Link>
-        </Button>
+        </Button> */}
+        <IconButton icon={FaPlus} label="Add Seva Bookings" to="/seva-bookings" />
+                           
+         </div>
+       
       </div>
 
       {alert && (
@@ -112,17 +119,14 @@ function SevaBookingTablePage() {
           data={data}
           renderRowActions={(row) => (
             <>
-              <Button variant="secondary" className="mr-2" onClick={() => handleEdit(row)}>
-                Edit
-              </Button>
+              <IconButton icon={FaEdit} variant="secondary" onClick={() => handleEdit(row)}/>
+              
                {row.status !== "cancelled" && (
-              <Button variant="warning" className="mr-2" onClick={() => handleCancel(row)}>
-                Cancel
-              </Button>
+              <IconButton icon={FaTimes} variant="warning" className="mr-2" onClick={() => handleCancel(row)}/>
+              
                 )}
-              <Button variant="destructive" onClick={() => handleDelete(row)}>
-                Delete
-              </Button>
+              <IconButton icon={FaTrash} variant="destructive" onClick={() => handleDelete(row)}/>
+               
             </>
           )}
         />

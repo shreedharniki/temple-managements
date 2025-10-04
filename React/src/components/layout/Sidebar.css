@@ -56,7 +56,7 @@
 
 .sidebar-link:hover,
 .submenu-toggle:hover {
-  background: #2563eb;
+  background: #e14704;
   color: #fff;
   transform: translateX(4px);
 }
@@ -64,7 +64,8 @@
 /* Active Link */
 .sidebar-link.active,
 .sidebar-sublink.active {
-  background: #1d4ed8;
+  background:#e14704;
+  
   color: #fff;
   font-weight: 600;
 }
@@ -94,7 +95,8 @@
 }
 
 .sidebar-sublink:hover {
-  background-color: #2563eb;
+  background-color:#e14704;
+
   color: #fff;
   transform: translateX(4px);
 }
@@ -143,4 +145,15 @@
   .sidebar-sublink:hover {
     transform: translateX(6px);
   }
+}
+.sidebar-link.active,
+.sidebar-sublink.active {
+  background: #e64906; /* Highlight color */
+  color: #fff;
+  font-weight: 600;
+}
+
+.sidebar-link.active svg,
+.sidebar-sublink.active svg {
+  color: #fff; /* icon color for active link */
 }

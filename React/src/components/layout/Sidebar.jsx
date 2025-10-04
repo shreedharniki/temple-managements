@@ -4,7 +4,16 @@ import { Link } from "react-router-dom";
 import "./Sidebar.css";
 import logo from "../../assets/logo.png";
 import { useSelector } from "react-redux";
+import { FaUsers,FaUser, FaMoneyBillWave, FaCalendarAlt,FaList,FaOm,
+FaTachometerAlt,
+FaPrayingHands,
+FaCoins,
+FaFortAwesome,
+FaAtom,
+FaListUl,
+FaPiggyBank,FaUserTie
 
+} from "react-icons/fa";
 function Sidebar() {
   const role = useSelector((state) => state.auth.role);
   const [openSubMenu, setOpenSubMenu] = useState(null);
@@ -16,13 +25,13 @@ function Sidebar() {
   return (
     <aside className="sidebar">
       <div className="sidebar-header">
-        <img src={logo} alt="logo" className="logo" />
-        TMS ADMIN
+        {/* <img src={logo} alt="logo" className="logo" /> */}
+       <FaOm /> TMS ADMIN
       </div>
 
       <nav className="sidebar-nav">
         <Link to="/dashboard" className="sidebar-link">
-          Dashboard
+         <FaTachometerAlt /> Dashboard
         </Link>
 
         {/* 🔽 Temple (only for super_admin) */}
@@ -32,7 +41,7 @@ function Sidebar() {
               className="sidebar-link submenu-toggle"
               onClick={() => toggleSubMenu("temple")}
             >
-              Temple {openSubMenu === "temple" ? "▴" : "▾"}
+            <FaFortAwesome/>  Temple {openSubMenu === "temple" ? "▴" : "▾"}
             </button>
             {openSubMenu === "temple" && (
               <div className="sidebar-submenu">
@@ -40,7 +49,7 @@ function Sidebar() {
                   Temple Form
                 </Link> */}
                 <Link to="/temple-table" className="sidebar-sublink">
-                  Temple List
+               <FaListUl />   Temple List
                 </Link>
               </div>
             )}
@@ -54,15 +63,15 @@ function Sidebar() {
               className="sidebar-link submenu-toggle"
               onClick={() => toggleSubMenu("admin")}
             >
-              Admin {openSubMenu === "admin" ? "▴" : "▾"}
+             <FaAtom /> Admin {openSubMenu === "admin" ? "▴" : "▾"}
             </button>
             {openSubMenu === "admin" && (
               <div className="sidebar-submenu">
                 <Link to="/admin" className="sidebar-sublink">
-                  Create Admin
+                <FaListUl />  Create Admin
                 </Link>
                 <Link to="/admin-table" className="sidebar-sublink">
-                  Admin List
+                 <FaListUl /> Admin List
                 </Link>
                 <Link to="/admin/logs" className="sidebar-sublink">
                   Logs
@@ -79,7 +88,7 @@ function Sidebar() {
             className="sidebar-link submenu-toggle"
             onClick={() => toggleSubMenu("devotees")}
           >
-            Devotees {openSubMenu === "devotees" ? "▴" : "▾"}
+          <FaUser />  Devotees {openSubMenu === "devotees" ? "▴" : "▾"}
           </button>
           {openSubMenu === "devotees" && (
             <div className="sidebar-submenu">
@@ -87,7 +96,7 @@ function Sidebar() {
                 Devotees Form
               </Link> */}
               <Link to="/devotees-table" className="sidebar-sublink">
-                Devotees List
+              <FaUsers />  Devotees List
               </Link>
             </div>
           )}
@@ -96,7 +105,7 @@ function Sidebar() {
        {/* Other single links */}
          {role === "admin" && (
         <Link to="/donation-table" className="sidebar-link">
-          Donation
+         <FaMoneyBillWave /> Donation
         </Link>
          )}
         {/* 🔽 Seva Bookings */}
@@ -106,7 +115,7 @@ function Sidebar() {
             className="sidebar-link submenu-toggle"
             onClick={() => toggleSubMenu("sevaBookings")}
           >
-            Seva Bookings {openSubMenu === "sevaBookings" ? "▴" : "▾"}
+            <FaCalendarAlt/>  Seva Bookings {openSubMenu === "sevaBookings" ? "▴" : "▾"}
           </button>
           {openSubMenu === "sevaBookings" && (
             <div className="sidebar-submenu">
@@ -114,7 +123,7 @@ function Sidebar() {
                 Seva Bookings Form
               </Link> */}
               <Link to="/seva-bookings-table" className="sidebar-sublink">
-                Seva Bookings List
+              <FaList/>  Seva Bookings List
               </Link>
             </div>
           )}
@@ -127,7 +136,7 @@ function Sidebar() {
             className="sidebar-link submenu-toggle"
             onClick={() => toggleSubMenu("deity")}
           >
-            Deity {openSubMenu === "deity" ? "▴" : "▾"}
+          <FaPrayingHands />  Deity {openSubMenu === "deity" ? "▴" : "▾"}
           </button>
           {openSubMenu === "deity" && (
             <div className="sidebar-submenu">
@@ -135,7 +144,7 @@ function Sidebar() {
                 Deity Form
               </Link> */}
               <Link to="/deity-table" className="sidebar-sublink">
-                Deity Table
+           <FaListUl /> Deity Table
               </Link>
             </div>
           )}
@@ -148,13 +157,13 @@ function Sidebar() {
             className="sidebar-link submenu-toggle"
             onClick={() => toggleSubMenu("seva")}
           >
-            Seva {openSubMenu === "seva" ? "▴" : "▾"}
+           <FaCoins /> Seva {openSubMenu === "seva" ? "▴" : "▾"}
           </button>
           {openSubMenu === "seva" && (
             <div className="sidebar-submenu">
               
               <Link to="/seva-table" className="sidebar-sublink">
-                Seva Table
+               <FaListUl /> Seva Table
               </Link>
             </div>
           )}
@@ -165,14 +174,14 @@ function Sidebar() {
 
           {role === "admin" && (
         <Link to="/donation-type-table" className="sidebar-link">
-          Donation Type
+        <FaPiggyBank />  Donation Type
         </Link>
          )}
 
          
           {role === "admin" && (
         <Link to="/user-type-table" className="sidebar-link">
-       User Type
+      <FaUserTie /> User Type
         </Link>
          )}
       </nav>

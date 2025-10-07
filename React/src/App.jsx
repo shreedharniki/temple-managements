@@ -57,6 +57,7 @@ import ProtectedRoute from "./components/layout/ProtectedRoute";
  import TempleTablePage from "./pages/temple/TempleTablePage";
  import EditTemplePage from "./pages/temple/EditTemplePage";
 import ViewTempleSettings from "./pages/temple/ViewTempleSettings";
+import TempleModuleManager from "./pages/temple/TempleModuleManager";
 
 
 
@@ -144,6 +145,8 @@ function App() {
             <Route path="/temple-table" element={<TempleTablePage/>}/>
             <Route path="/temples/edit/:id" element={<EditTemplePage />} />
             <Route path="/temples/:templeId/settings" element={<ViewTempleSettings />} />
+            <Route path="/temple/:id/modules" element={<TempleModuleManager />} />
+
 
 
             <Route path="/admin" element={<AdminPage />} />

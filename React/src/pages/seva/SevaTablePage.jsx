@@ -5,6 +5,7 @@ import Alert from "../../components/ui/Alert";
 import Dialog from "../../components/ui/Dialog";
 import Loader from "../../components/ui/Loader";
 import { apiGet, apiDelete } from "../../utils/helpers";
+import { slugify } from '../../utils/slugify.js';
 import { useNavigate } from "react-router-dom";
 import { FaEdit, FaTrash, FaPlus, FaList } from "react-icons/fa";
 import IconButton from "../../components/ui/IconButton";
@@ -15,7 +16,6 @@ function SevaTablePage() {
     { field: "name", label: "Seva Name" },
     { field: "description", label: "Seva Description" },
     { field: "amount", label: "Amount" },
-   
     { field: "seats", label: "Seats" },
     { field: "maxlimit", label: "Max Limit" },
   ];
@@ -24,6 +24,7 @@ function SevaTablePage() {
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
   const [dialog, setDialog] = useState({ open: false, item: null });
+
   const navigate = useNavigate();
 
   // Fetch seva data
@@ -43,9 +44,7 @@ function SevaTablePage() {
     fetchData();
   }, []);
 
-  const handleDelete = (item) => {
-    setDialog({ open: true, item });
-  };
+  const handleDelete = (item) => setDialog({ open: true, item });
 
   const confirmDelete = async () => {
     try {
@@ -60,16 +59,13 @@ function SevaTablePage() {
   };
 
   const handleEdit = (item) => {
-    navigate(`/seva/edit/${item.id}`);
+    const slug = slugify(item.name); // Friendly slug from Seva name
+    navigate(`/seva/${slug}`, { state: { id: item.id } }); // pass actual ID in state
   };
 
   return (
     <div className="p-6">
-      {/* Header with Add + List buttons */}
-      <div
-        className="header"
-        style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}
-      >
+      <div className="header" style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
         <h2>🙏 Manage Seva</h2>
         <div style={{ display: "flex", gap: "8px" }}>
           <IconButton icon={FaPlus} label="Add Seva" to="/seva" />
@@ -77,12 +73,8 @@ function SevaTablePage() {
         </div>
       </div>
 
-      {/* Alerts */}
-      {alert && (
-        <Alert type={alert.type} message={alert.message} onClose={() => setAlert(null)} />
-      )}
+      {alert && <Alert type={alert.type} message={alert.message} onClose={() => setAlert(null)} />}
 
-      {/* Loader / Table */}
       {loading ? (
         <Loader />
       ) : (
@@ -91,22 +83,13 @@ function SevaTablePage() {
           data={data}
           renderRowActions={(row) => (
             <div style={{ display: "flex", gap: "6px" }}>
-              <IconButton
-                icon={FaEdit}
-                variant="secondary"
-                onClick={() => handleEdit(row)}
-              />
-              <IconButton
-                icon={FaTrash}
-                variant="destructive"
-                onClick={() => handleDelete(row)}
-              />
+              <IconButton icon={FaEdit} variant="secondary" onClick={() => handleEdit(row)} />
+              <IconButton icon={FaTrash} variant="destructive" onClick={() => handleDelete(row)} />
             </div>
           )}
         />
       )}
 
-      {/* Delete confirmation dialog */}
       <Dialog
         open={dialog.open}
         onClose={() => setDialog({ open: false, item: null })}
@@ -114,12 +97,8 @@ function SevaTablePage() {
         description={`Are you sure you want to delete "${dialog.item?.name}"?`}
         actions={
           <>
-            <Button onClick={() => setDialog({ open: false, item: null })}>
-              Cancel
-            </Button>
-            <Button variant="destructive" onClick={confirmDelete}>
-              Delete
-            </Button>
+            <Button onClick={() => setDialog({ open: false, item: null })}>Cancel</Button>
+            <Button variant="destructive" onClick={confirmDelete}>Delete</Button>
           </>
         }
       />

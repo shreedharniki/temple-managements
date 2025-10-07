@@ -125,7 +125,8 @@ function App() {
 
              <Route path="/seva" element={<SevaPage/>}/>
            <Route path="/seva-table" element={<SevaTablePage/>}/>
-           <Route path="/seva/edit/:id" element={<EditSevaPage/>}/>
+           {/* <Route path="/seva/edit/:id" element={<EditSevaPage/>}/> */}
+ <Route path="/seva/:slug" element={<EditSevaPage />} />
 
 
 

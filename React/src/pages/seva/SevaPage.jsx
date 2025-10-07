@@ -25,19 +25,6 @@ function SevaPage() {
   const [temples, setTemples] = useState([]);
   const [alert, setAlert] = useState(null);
 
-  // useEffect(() => {
-  //   const fetchTemples = async () => {
-  //     try {
-  //       const res = await apiGet("/temples", { headers: { Authorization: `Bearer ${token}` } });
-  //       const options = (res.data || res).map((t) => ({ value: t.id, label: t.name }));
-  //       setTemples([{ value: "", label: "Select temple" }, ...options]);
-  //     } catch (err) {
-  //       console.error("Failed to fetch temples:", err);
-  //     }
-  //   };
-  //   fetchTemples();
-  // }, [token]);
-
   const fields = [
     { name: "name", label: "Seva Name", type: "text", placeholder: "Enter seva name" },
     { name: "description", label: "Description", type: "text", placeholder: "Enter description" },

@@ -37,3 +37,30 @@ export function validateAdminForm(form, isEdit = false) {
 
   return { valid: true };
 }
+
+
+
+export function validateTempleForm(form) {
+  // Required fields
+  if (!form.name || !form.location) {
+    return { valid: false, message: "❌ Please fill all required fields" };
+  }
+
+  // Name validation: letters & spaces only, at least 3 chars
+  if (!/^[A-Za-z ]{3,}$/.test(form.name)) {
+    return {
+      valid: false,
+      message: "❌ Temple Name must contain only letters and be at least 3 characters",
+    };
+  }
+
+  // Optional: description length check
+  if (form.description && form.description.length > 250) {
+    return {
+      valid: false,
+      message: "❌ Description cannot exceed 250 characters",
+    };
+  }
+
+  return { valid: true };
+}

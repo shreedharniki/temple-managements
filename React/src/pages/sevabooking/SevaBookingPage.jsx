@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Form from "../../components/ui/Form";
 import Alert from "../../components/ui/Alert";
 import { apiGet, apiPost } from "../../utils/helpers";
+import {isFutureDate} from "../../utils/date"
 import { useNavigate, Link } from "react-router-dom";
 import Button from "../../components/ui/Button";
 
@@ -160,6 +161,13 @@ function SevaBookingPage() {
   // Handle form submission
   const handleSubmit = async () => {
     try {
+      if (!isFutureDate(form.seva_date)) {
+      setAlert({
+        type: "warning",
+        message: "⚠️ Please select a future date for Seva.",
+      });
+      return;
+    }
       const payload = {
         ...form,
         temple_id: form.temple_id ? parseInt(form.temple_id) : null,

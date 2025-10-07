@@ -6,7 +6,7 @@ import { apiPost } from "../../utils/helpers";
 import { useNavigate } from "react-router-dom";
 import IconButton from "../../components/ui/IconButton";
 import { FaList } from "react-icons/fa";
-
+import { validateTempleForm } from "../../utils/validation";
 function TemplePage() {
   const [form, setForm] = useState({ name: "", location: "", description: "" });
   const [alert, setAlert] = useState(null);
@@ -24,8 +24,15 @@ function TemplePage() {
   };
 
   const handleSubmit = async () => {
-    if (!form.name || !form.location) {
-      setAlert({ type: "error", message: "❌ Please fill required fields" });
+    // if (!form.name || !form.location) {
+    //   setAlert({ type: "error", message: "❌ Please fill required fields" });
+    //   return;
+    // }
+
+    // ✅ Use centralized validation
+    const { valid, message } = validateTempleForm(form);
+    if (!valid) {
+      setAlert({ type: "error", message });
       return;
     }
 

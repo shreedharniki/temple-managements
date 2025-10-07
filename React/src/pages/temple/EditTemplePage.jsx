@@ -5,6 +5,7 @@ import { apiGet, apiPut } from "../../utils/helpers";
 import { useParams, useNavigate } from "react-router-dom";
 import IconButton from "../../components/ui/IconButton";
 import { FaList } from "react-icons/fa";
+import { validateTempleForm } from "../../utils/validation";
 
 function EditTemplePage() {
   const { id } = useParams();
@@ -43,11 +44,15 @@ function EditTemplePage() {
 
   // Handle submit
   const handleSubmit = async () => {
-    if (!form.name || !form.location) {
-      setAlert({ type: "error", message: "❌ Please fill required fields" });
+    // if (!form.name || !form.location) {
+    //   setAlert({ type: "error", message: "❌ Please fill required fields" });
+    //   return;
+    // }
+ const { valid, message } = validateTempleForm(form);
+    if (!valid) {
+      setAlert({ type: "error", message });
       return;
     }
-
     const { id: _id, created_at, ...updateData } = form;
 
     try {

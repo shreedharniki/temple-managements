@@ -84,6 +84,7 @@ import EditDeityPage from "./pages/deity/EditDeityPage";
 import SevaPage from "./pages/seva/SevaPage";
 import SevaTablePage from "./pages/seva/SevaTablePage";
 import EditSevaPage from "./pages/seva/EditSevaPage";
+import ModuleProtectedRoute from "./components/layout/ModuleProtectedRoute";
 
 
 function App() {
@@ -124,10 +125,15 @@ function App() {
             <Route path="/deity-table" element={<DeityTablePage/>}/>
             <Route path="deity/edit/:id" element={<EditDeityPage/>} />
 
-             <Route path="/seva" element={<SevaPage/>}/>
+             {/* <Route path="/seva" element={<SevaPage/>}/>
            <Route path="/seva-table" element={<SevaTablePage/>}/>
-           {/* <Route path="/seva/edit/:id" element={<EditSevaPage/>}/> */}
- <Route path="/seva/:slug" element={<EditSevaPage />} />
+        
+           <Route path="/seva/:slug" element={<EditSevaPage />} /> */}
+<Route element={<ModuleProtectedRoute moduleName="seva" />}>
+  <Route path="/seva" element={<SevaPage />} />
+  <Route path="/seva-table" element={<SevaTablePage />} />
+  <Route path="/seva/:slug" element={<EditSevaPage />} />
+</Route>
 
 
 

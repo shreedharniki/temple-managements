@@ -21,6 +21,7 @@ function SevaPage() {
   const [temples, setTemples] = useState([]);
   const [alert, setAlert] = useState(null);
 
+ 
   useEffect(() => {
     const fetchTemples = async () => {
       try {

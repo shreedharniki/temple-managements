@@ -52,6 +52,7 @@ import EditDonationPage from "./pages/donation/EditDonationPage";
 import DonationTypeTablePage from "./pages/donation/DonationTypeTablePage";
 import DonationTypePage from "./pages/donation/DonationTypePage";
 import EditDonationTypePage from "./pages/donation/EditDonationTypePage";
+import DonationReportPage from "./pages/Report/DonationReportPage";
 // detiy
 import DeityTablePage from "./pages/deity/DeityTablePage";
 import DeityPage from "./pages/deity/DeityPage";
@@ -97,6 +98,7 @@ function App() {
             <Route path="/donation" element={<DonationPage />} />
             <Route path="/donation-table" element={<DonationTablePage />} />
             <Route path="/donation/edit/:id" element={<EditDonationPage />} />
+            <Route path="/donation-report" element={<DonationReportPage />} />
 
           </Route>
           <Route element={<ModuleProtectedRoute moduleName="donation" />}>

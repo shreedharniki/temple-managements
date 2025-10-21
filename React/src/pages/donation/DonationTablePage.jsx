@@ -274,6 +274,13 @@ function DonationTablePage() {
                   onClick={() => handleDelete(row)}
                 />
               )}
+              <Button
+  variant="secondary"
+  onClick={() => navigate("/donation-report")}
+>
+  Reports
+</Button>
+
             </div>
           )}
         />

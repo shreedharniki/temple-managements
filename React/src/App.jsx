@@ -24,7 +24,7 @@ import SevaTablePage from "./pages/SevaTablePage";
  import DeityPage from "./pages/DeityPage"
 
 import DeityTablePage from "./pages/DeityTablePage";
-
+// shreedhar nikita pawar
 
 function App() {
 
